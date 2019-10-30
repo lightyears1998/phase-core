@@ -1,0 +1,27 @@
+{
+  "name": "phase-core",
+  "version": "0.1.0",
+  "main": "lib/app.js",
+  "repository": "https://github.com/lightyears1998/phase-core.git",
+  "author": "lightyears1998 <lightyears1998@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf ./lib ./yarn-error.log",
+    "lint": "esw src --ext .ts",
+    "lint:fix": "yarn lint --fix",
+    "lint:watch": "yarn lint:fix --watch --changed --clear",
+    "build": "tsc",
+    "build:watch": "yarn build --watch",
+    "start": "node lib/app.js"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.3.2",
+    "@typescript-eslint/parser": "^2.3.2",
+    "eslint": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-watch": "^6.0.1"
+  },
+  "dependencies": {
+    "typescript": "^3.6.4"
+  }
+}
