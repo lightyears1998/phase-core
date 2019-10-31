@@ -6,7 +6,7 @@
     "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "inlineSourceMap": true,
+    "inlineSourceMap": true
   },
   "include": [
     "src/**/*"
