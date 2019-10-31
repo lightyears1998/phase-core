@@ -38,7 +38,7 @@ rules:
     - warn
     - unix
   no-console:
-    - warn
+    - off
   no-trailing-spaces:
     - warn
   no-else-return:

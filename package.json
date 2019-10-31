@@ -16,13 +16,15 @@
     "prepublish": "yarn build"
   },
   "devDependencies": {
+    "@types/node": "^12.12.3",
     "@typescript-eslint/eslint-plugin": "^2.3.2",
     "@typescript-eslint/parser": "^2.3.2",
     "eslint": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-watch": "^6.0.1"
+    "eslint-watch": "^6.0.1",
+    "typescript": "^3.6.4"
   },
   "dependencies": {
-    "typescript": "^3.6.4"
+    
   }
 }
