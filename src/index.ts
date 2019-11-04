@@ -1,3 +1,4 @@
-import { Application } from "./App";
+import { App } from "./App";
 
-let app = new Application();
+const app = new App();
+app.start();
