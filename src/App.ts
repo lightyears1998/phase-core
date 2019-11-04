@@ -1,6 +1,6 @@
 import os from "os";
-import fs from "file-system";
 import path from "path";
+import fs from "file-system";
 import figlet from "figlet";
 
 
@@ -21,7 +21,7 @@ export class App {
         case "win32": {
           const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
           this.configPath = path.resolve(projectRoot + "/config.json");
-          this.dataPath = path.resolve(projectRoot + "/data.sqlite3")
+          this.dataPath = path.resolve(projectRoot + "/data.sqlite3");
           break;
         }
 
@@ -38,7 +38,7 @@ export class App {
     }
   }
 
-  private ensurePath() : void {
+  private ensurePath(): void {
     fs.mkdirSync(path.dirname(this.configPath));
     fs.mkdirSync(path.dirname(this.dataPath));
   }
