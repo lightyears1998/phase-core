@@ -1,5 +1,5 @@
 import os from "os";
-import fs from "fs";
+import fs from "file-system";
 import path from "path";
 import figlet from "figlet";
 
@@ -38,7 +38,8 @@ export class App {
   }
 
   private ensurePath() : void {
-    
+    fs.mkdirSync(path.dirname(this.configPath));
+    fs.mkdirSync(path.dirname(this.dataPath));
   }
 
   public start(): void {
@@ -48,5 +49,15 @@ export class App {
   private printTitle(): void {
     const textArt = (text): string => figlet.textSync(text, "Star Wars");
     console.log(textArt("Phase"));
+  }
+}
+
+
+class AppConfig {
+  userName: string;
+
+  static fromFile(filepath: string): AppConfig {
+    const config = new AppConfig();
+    return null;
   }
 }
