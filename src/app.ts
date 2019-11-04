@@ -1,8 +1,6 @@
 import os from "os";
-import { checkOS } from "./util";
+import fs from "fs";
+import { checkOS, printTitle } from "./util";
+import { fstat } from "fs";
 
-checkOS();
-
-console.log(os.platform());
-
-console.log("Hello, world!");
+printTitle();
