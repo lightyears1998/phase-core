@@ -15,21 +15,22 @@ export class App {
 
   private setPath(): void {
     const platform = os.platform();
-    const userHome = os.homedir();
+    const homeDir = os.homedir();
 
     switch (platform) {
         case "win32": {
-          const projectHome = path.resolve(userHome + "/AppData/Local/Phase");
-          this.configPath = path.resolve(projectHome + "/config.json");
-          this.dataPath = path.resolve(projectHome + "/data.sqlite3")
+          const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
+          this.configPath = path.resolve(projectRoot + "/config.json");
+          this.dataPath = path.resolve(projectRoot + "/data.sqlite3")
           break;
         }
 
-        // case "linux": {
-        //   this.configPath = path.resolve();
-        //   this.dataPath = path.resolve()
-        //   break;
-        // }
+        case "linux": {
+          const projectRoot = path.resolve(homeDir + "/.phase");
+          this.configPath = path.resolve(projectRoot + "/config.json");
+          this.dataPath = path.resolve(projectRoot + "/data.sqlite3");
+          break;
+        }
 
         default: {
           throw "不支持的平台：" + platform;
