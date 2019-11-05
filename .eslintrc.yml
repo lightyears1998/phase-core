@@ -32,6 +32,12 @@ rules:
     - warn
     - smart
   indent:
+    - off
+    - 2
+    - {
+      SwitchCase: 2
+    }
+  "@typescript-eslint/indent":
     - warn
     - 2
     - {

@@ -4,8 +4,39 @@ import { Hitokoto } from "../entity";
 
 
 export class HitokotoService {
+  public static async random(): Promise<Hitokoto> {
+    const repo = getConnection().getRepository(Hitokoto);
+    const hitokoto = await repo.createQueryBuilder().orderBy("RANDOM()").getOne();
+    return hitokoto;
+  }
+
+  public static save(hitokoto: Hitokoto): void {
+    const repo = getConnection().getRepository(Hitokoto);
+    repo.save(hitokoto);
+  }
+
+  public static async update(): Promise<void> {
+    Array(10).forEach(async () => {
+      const hitokoto = this.loadFromHitokotoCN();
+      if (hitokoto != null) {
+        this.save(await hitokoto);
+      }
+    });
+  }
+
+  public static async clean(): Promise<void> {
+    const limit = 1024;
+
+    const repo = getConnection().getRepository(Hitokoto);
+    const count = await repo.count();
+    if (count > limit) {
+      const random = await repo.createQueryBuilder().orderBy("RANDOM()").limit(count - limit).getMany();
+      repo.remove(random);
+    }
+  }
+
   public static async loadFromHitokotoCN(): Promise<Hitokoto> {
-    let hitokoto;
+    let hitokoto = null;
 
     await request("https://v1.hitokoto.cn/")
       .then(jsonString => {
@@ -20,21 +51,9 @@ export class HitokotoService {
         );
       })
       .catch(err => {
-        throw err;
+        console.log(err);
       });
 
     return hitokoto;
-  }
-
-  public static async random(): Promise<Hitokoto> {
-    const repo = getConnection().getRepository(Hitokoto);
-    const count = await repo.count();
-    const hitokoto = await repo.find({ take: 1, skip: Math.floor(Math.random() * count) });
-    return hitokoto.length > 0 ? hitokoto[0] : null;
-  }
-
-  public static save(hitokoto: Hitokoto): void {
-    const repo = getConnection().getRepository(Hitokoto);
-    repo.save(hitokoto);
   }
 }

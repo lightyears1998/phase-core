@@ -65,7 +65,7 @@ export class App {
   }
 
   private async initConfig(): Promise<void> {
-    this.config = await AppConfig.loadFromFile(this.configPath);
+    this.config = await AppConfig.load(this.configPath);
   }
 
   private async initDB(): Promise<void> {
