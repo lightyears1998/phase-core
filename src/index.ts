@@ -6,5 +6,5 @@ const app = new App();
 app.start();
 
 export {
-  app
+    app
 };

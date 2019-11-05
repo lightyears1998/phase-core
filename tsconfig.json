@@ -1,16 +1,16 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "outDir": "lib",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "inlineSourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  },
-  "include": [
-    "src/**/*"
-  ]
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "outDir": "lib",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "inlineSourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
+    },
+    "include": [
+        "src/**/*"
+    ]
 }

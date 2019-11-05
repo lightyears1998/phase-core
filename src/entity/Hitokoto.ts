@@ -2,19 +2,19 @@ import { Entity, PrimaryColumn, Column } from "typeorm";
 
 @Entity()
 export class Hitokoto {
-  @PrimaryColumn() id: number;
-  @Column() content: string;
-  @Column() type: string;
-  @Column() from: string;
-  @Column() creator: string;
-  @Column() createdAt: Date;
+    @PrimaryColumn() id: number;
+    @Column() content: string;
+    @Column() type: string;
+    @Column() from: string;
+    @Column() creator: string;
+    @Column() createdAt: Date;
 
-  public constructor(id?, content?, type?, from?, creator?, createdAt?) {
-    this.id = id;
-    this.content = content;
-    this.type = type;
-    this.from = from;
-    this.creator = creator;
-    this.createdAt = createdAt;
-  }
+    public constructor(id?, content?, type?, from?, creator?, createdAt?) {
+        this.id = id;
+        this.content = content;
+        this.type = type;
+        this.from = from;
+        this.creator = creator;
+        this.createdAt = createdAt;
+    }
 }
