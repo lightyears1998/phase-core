@@ -70,6 +70,7 @@ export class App {
 
     private async initConfig(): Promise<void> {
         this.config = await AppConfig.load(this.configPath);
+        AppConfig.save(this.config, this.configPath);
     }
 
     private async initDB(): Promise<void> {
