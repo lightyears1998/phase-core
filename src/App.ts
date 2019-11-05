@@ -2,7 +2,10 @@ import os from "os";
 import path from "path";
 import fs from "file-system";
 import figlet from "figlet";
-import { createConnection } from "typeorm";
+import { createConnection, Connection } from "typeorm";
+import { AppConfig } from "./AppConfig";
+import {Hitokoto} from "./entity";
+import * as entities from "./entity";
 
 
 export class App {
@@ -10,16 +13,17 @@ export class App {
   configPath: string
   dbPath: string
 
+  config: AppConfig
+  dbConnection: Connection
+
   constructor() {
     this.setDebuggable();
     this.setPath();
     this.ensurePath();
-    this.initConfig();
-    this.initDB();
   }
 
   private setDebuggable(): void {
-
+    this.debuggable = process.env.NODE_ENV === "development";
   }
 
   private setPath(): void {
@@ -52,34 +56,36 @@ export class App {
     fs.mkdirSync(path.dirname(this.dbPath));
   }
 
-  private initConfig(): void {
+  public async start(): Promise<void> {
+    await this.initConfig();
+    await this.initDB();
 
+    this.printTitle();
+    this.greeting();
   }
 
-  private initDB(): void {
+  private async initConfig(): Promise<void> {
+    this.config = await AppConfig.loadFromFile(this.configPath);
+  }
+
+  private async initDB(): Promise<void> {
     createConnection({
       type:     "sqlite",
       database: this.dbPath,
-      logging:  true
-    });
-  }
-
-  public start(): void {
-    this.printTitle();
+      entities: Object.values(entities),
+      logging:  this.debuggable,
+      synchronize: true
+    })
+      .then(conn => this.dbConnection = conn)
+      .catch(err => console.log(err));
   }
 
   private printTitle(): void {
     const textArt = (text): string => figlet.textSync(text, "Star Wars");
     console.log(textArt("Phase"));
   }
-}
 
-
-class AppConfig {
-  userName: string;
-
-  static fromFile(filepath: string): AppConfig {
-    const config = new AppConfig();
-    return null;
+  private greeting(): void {
+    Hitokoto.random();
   }
 }
