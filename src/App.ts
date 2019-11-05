@@ -2,15 +2,24 @@ import os from "os";
 import path from "path";
 import fs from "file-system";
 import figlet from "figlet";
+import { createConnection } from "typeorm";
 
 
 export class App {
+  debuggable: boolean
   configPath: string
-  dataPath: string
+  dbPath: string
 
   constructor() {
+    this.setDebuggable();
     this.setPath();
     this.ensurePath();
+    this.initConfig();
+    this.initDB();
+  }
+
+  private setDebuggable(): void {
+
   }
 
   private setPath(): void {
@@ -21,14 +30,14 @@ export class App {
         case "win32": {
           const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
           this.configPath = path.resolve(projectRoot + "/config.json");
-          this.dataPath = path.resolve(projectRoot + "/data.sqlite3");
+          this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
           break;
         }
 
         case "linux": {
           const projectRoot = path.resolve(homeDir + "/.phase");
           this.configPath = path.resolve(projectRoot + "/config.json");
-          this.dataPath = path.resolve(projectRoot + "/data.sqlite3");
+          this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
           break;
         }
 
@@ -40,7 +49,19 @@ export class App {
 
   private ensurePath(): void {
     fs.mkdirSync(path.dirname(this.configPath));
-    fs.mkdirSync(path.dirname(this.dataPath));
+    fs.mkdirSync(path.dirname(this.dbPath));
+  }
+
+  private initConfig(): void {
+
+  }
+
+  private initDB(): void {
+    createConnection({
+      type:     "sqlite",
+      database: this.dbPath,
+      logging:  true
+    });
   }
 
   public start(): void {
