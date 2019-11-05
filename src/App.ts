@@ -4,8 +4,7 @@ import fs from "file-system";
 import figlet from "figlet";
 import { createConnection, Connection } from "typeorm";
 import { AppConfig } from "./AppConfig";
-import {Hitokoto} from "./entity";
-import {HitokotoService} from "./control";
+import { HitokotoService } from "./control";
 import * as entities from "./entity";
 
 
@@ -70,14 +69,13 @@ export class App {
   }
 
   private async initDB(): Promise<void> {
-    createConnection({
-      type:     "sqlite",
-      database: this.dbPath,
-      entities: Object.values(entities),
-      logging:  this.debuggable,
+    await createConnection({
+      type:        "sqlite",
+      database:    this.dbPath,
+      entities:    Object.values(entities),
+      logging:     this.debuggable,
       synchronize: true
-    })
-      .then(conn => this.dbConnection = conn)
+    }).then(conn => this.dbConnection = conn)
       .catch(err => console.log(err));
   }
 
@@ -86,7 +84,10 @@ export class App {
     console.log(textArt("Phase"));
   }
 
-  private greeting(): void {
-    
+  private async greeting(): Promise<void> {
+    const hitokoto = await HitokotoService.random();
+    if (hitokoto != null) {
+      console.log(`［一言］${hitokoto.content} ——《${hitokoto.from}》`);
+    }
   }
 }

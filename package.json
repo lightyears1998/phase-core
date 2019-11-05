@@ -13,8 +13,8 @@
     "lint:watch": "yarn lint:fix --watch --changed --clear",
     "build": "tsc",
     "build:watch": "yarn build --watch",
-    "start": "node lib/index.js",
-    "start:dev": "cross-env NODE_ENV=development nodemon src/index.ts --watch src",
+    "start": "node ./lib/index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/index.ts --watch src",
     "prepublish": "yarn build --declaration"
   },
   "devDependencies": {

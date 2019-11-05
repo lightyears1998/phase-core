@@ -1,8 +1,4 @@
-import { getConnection } from "typeorm";
 import { Entity, PrimaryColumn, Column } from "typeorm";
-import { app } from "./../";
-import request from "request-promise";
-import { reject } from "bluebird";
 
 @Entity()
 export class Hitokoto {
