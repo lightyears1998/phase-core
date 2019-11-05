@@ -5,6 +5,7 @@ import figlet from "figlet";
 import { createConnection, Connection } from "typeorm";
 import { AppConfig } from "./AppConfig";
 import {Hitokoto} from "./entity";
+import {HitokotoService} from "./control";
 import * as entities from "./entity";
 
 
@@ -86,6 +87,6 @@ export class App {
   }
 
   private greeting(): void {
-    Hitokoto.random();
+    
   }
 }
