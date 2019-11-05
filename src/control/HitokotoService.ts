@@ -1,6 +1,7 @@
 import { getConnection } from "typeorm";
 import request from "request-promise";
 import { Hitokoto } from "../entity";
+import { app } from "../";
 
 
 export class HitokotoService {
@@ -11,20 +12,24 @@ export class HitokotoService {
     }
 
     public static save(hitokoto: Hitokoto): void {
-        const repo = getConnection().getRepository(Hitokoto);
-        repo.save(hitokoto);
+        if (hitokoto != null) {
+            const repo = getConnection().getRepository(Hitokoto);
+            repo.save(hitokoto);
+        }
     }
 
     public static async update(): Promise<void> {
-        Array(10).forEach(async () => {
-            const hitokoto = this.loadFromHitokotoCN();
+        [... Array(10).keys()].forEach(async () => {
+            const hitokoto = await this.loadFromHitokotoCN();
             if (hitokoto != null) {
-                this.save(await hitokoto);
+                this.save(hitokoto);
             }
         });
+
+        this.removeRandomHitokotos();
     }
 
-    public static async clean(): Promise<void> {
+    public static async removeRandomHitokotos(): Promise<void> {
         const limit = 1024;
 
         const repo = getConnection().getRepository(Hitokoto);
@@ -51,7 +56,7 @@ export class HitokotoService {
                 );
             })
             .catch(err => {
-                console.log(err);
+                if (app.debuggable) console.log(err);
             });
 
         return hitokoto;

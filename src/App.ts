@@ -31,23 +31,23 @@ export class App {
         const homeDir = os.homedir();
 
         switch (platform) {
-                        case "win32": {
-                            const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
-                            this.configPath = path.resolve(projectRoot + "/config.json");
-                            this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
-                            break;
-                        }
+            case "win32": {
+                const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
+                this.configPath = path.resolve(projectRoot + "/config.json");
+                this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
+                break;
+            }
 
-                        case "linux": {
-                            const projectRoot = path.resolve(homeDir + "/.phase");
-                            this.configPath = path.resolve(projectRoot + "/config.json");
-                            this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
-                            break;
-                        }
+            case "linux": {
+                const projectRoot = path.resolve(homeDir + "/.phase");
+                this.configPath = path.resolve(projectRoot + "/config.json");
+                this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
+                break;
+            }
 
-                        default: {
-                            throw "不支持的平台：" + platform;
-                        }
+            default: {
+                throw "不支持的平台：" + platform;
+            }
         }
     }
 
@@ -59,6 +59,10 @@ export class App {
     public async start(): Promise<void> {
         await this.initConfig();
         await this.initDB();
+
+        if (this.config.updateHitokotoAtStartup) {
+            HitokotoService.update();
+        }
 
         this.printTitle();
         this.greeting();

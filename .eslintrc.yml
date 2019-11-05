@@ -35,13 +35,13 @@ rules:
         - off
         - 4
         - {
-            SwitchCase: 4
+            SwitchCase: 1
         }
     "@typescript-eslint/indent":
         - warn
         - 4
         - {
-            SwitchCase: 4
+            SwitchCase: 1
         }
     linebreak-style:
         - warn
