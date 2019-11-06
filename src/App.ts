@@ -14,7 +14,7 @@ export class App {
     dbPath: string
 
     config: AppConfig
-    dbConnection: Connection
+    mainDBConnection: Connection
 
     constructor() {
         this.setDebuggable();
@@ -80,7 +80,7 @@ export class App {
             entities:    Object.values(entities),
             logging:     this.debuggable,
             synchronize: true
-        }).then(conn => this.dbConnection = conn)
+        }).then(conn => this.mainDBConnection = conn)
             .catch(err => console.log(err));
     }
 

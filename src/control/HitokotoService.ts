@@ -56,7 +56,9 @@ export class HitokotoService {
                 );
             })
             .catch(err => {
-                if (app.debuggable) console.log(err);
+                if (app.debuggable) {
+                    console.log(err);
+                }
             });
 
         return hitokoto;
