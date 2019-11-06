@@ -125,6 +125,72 @@
             },
             {
                 "data": {
+                    "id": "by8i3ct8czc0",
+                    "created": 1573011651840,
+                    "text": "基本属性 BaseEntity"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "by8i3l5utig0",
+                            "created": 1573011670017,
+                            "text": "id: uuid"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "by8i3nab9wg0",
+                            "created": 1573011674640,
+                            "text": "创建时间createAt"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "by8i3tdhu4w0",
+                            "created": 1573011687893,
+                            "text": "更新时间updateAt"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "by8hruv2f880",
+                    "created": 1573010750763,
+                    "text": "目标 Target"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "by8nhb9deds0",
+                            "created": 1573026851110,
+                            "text": "状态"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "by8nhgdc2uw0",
+                            "created": 1573026862233,
+                            "text": "下属行动"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "by8nhgf5zm80",
+                            "created": 1573026862344,
+                            "text": "执行进度"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
                     "id": "bpui7wi7gs80",
                     "created": 1542340901252,
                     "text": "行动 Action",
@@ -376,51 +442,10 @@
                         "children": []
                     }
                 ]
-            },
-            {
-                "data": {
-                    "id": "by8hruv2f880",
-                    "created": 1573010750763,
-                    "text": "目标 Target"
-                },
-                "children": []
-            },
-            {
-                "data": {
-                    "id": "by8i3ct8czc0",
-                    "created": 1573011651840,
-                    "text": "基本属性 BaseEntity"
-                },
-                "children": [
-                    {
-                        "data": {
-                            "id": "by8i3l5utig0",
-                            "created": 1573011670017,
-                            "text": "id: uuid"
-                        },
-                        "children": []
-                    },
-                    {
-                        "data": {
-                            "id": "by8i3nab9wg0",
-                            "created": 1573011674640,
-                            "text": "创建时间createAt"
-                        },
-                        "children": []
-                    },
-                    {
-                        "data": {
-                            "id": "by8i3tdhu4w0",
-                            "created": 1573011687893,
-                            "text": "更新时间updateAt"
-                        },
-                        "children": []
-                    }
-                ]
             }
         ]
     },
-    "template": "default",
+    "template": "right",
     "theme": "fresh-blue",
     "version": "1.4.43"
 }
