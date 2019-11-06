@@ -1,7 +1,16 @@
 import "reflect-metadata";
+import fs from "fs";
+import path from "path";
 import * as inquirer from "inquirer";
 import { App } from "./App";
-import { version } from "./../package.json";
+
+function getPackageVersion(): string {
+    let packageJSON = fs.readFileSync(path.join(__dirname, "/../package.json"), {encoding: "utf8"});
+    let packageInfo = JSON.parse(packageJSON);
+    return packageInfo.version;
+}
+
+console.log(getPackageVersion())
 
 inquirer.prompt([
     {
