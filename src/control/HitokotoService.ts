@@ -43,7 +43,7 @@ export class HitokotoService {
     public static async loadFromHitokotoCN(): Promise<Hitokoto> {
         let hitokoto = null;
 
-        await request("https://v1.hitokoto.cn/")
+        await request("https://v1.hitokoto.cn/?c=a")
             .then(jsonString => {
                 const json = JSON.parse(jsonString);
                 hitokoto = new Hitokoto(

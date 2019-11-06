@@ -92,7 +92,7 @@ export class App {
     private async greeting(): Promise<void> {
         const hitokoto = await HitokotoService.random();
         if (hitokoto != null) {
-            console.log(`［一言］${hitokoto.content} ——《${hitokoto.from}》`);
+            console.log(`［一言］${hitokoto.content} ——${hitokoto.from}`);
         }
     }
 }
