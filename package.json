@@ -7,7 +7,7 @@
     "author": "lightyears1998 <lightyears1998@hotmail.com>",
     "license": "MIT",
     "bin": {
-        "phase": "./bin/cli"
+        "phase": "./bin/cli.js"
     },
     "scripts": {
         "clean": "rm -rf ./lib ./yarn-error.log",
