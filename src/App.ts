@@ -2,7 +2,8 @@ import os from "os";
 import path from "path";
 import fs from "fs-extra";
 import figlet from "figlet";
-import { createConnection, Connection } from "typeorm";
+import open from "open";
+import minimist from "minimist";
 import { createConnection, Connection, Entity, getConnection } from "typeorm";
 import { AppConfig } from "./AppConfig";
 import { HitokotoService } from "./control";
@@ -10,6 +11,7 @@ import * as entities from "./entity";
 
 
 export class App {
+    args: minimist.ParsedArgs;
     debuggable: boolean
 
     programDir: string
@@ -22,7 +24,9 @@ export class App {
     private hitokotoDBConnection: Connection
 
     constructor() {
+        this.parseCommandArgs();
         this.setDebuggable();
+
         this.setPath();
         this.ensurePath();
     }
@@ -40,8 +44,16 @@ export class App {
     public getHitokotoDBConnection() {
         return this.hitokotoDBConnection;
     }
+
+    private parseCommandArgs() {
+        this.args = minimist(process.argv.slice(2));
+    }
+
     private setDebuggable(): void {
         this.debuggable = process.env.NODE_ENV === "development";
+        if (this.args.d || this.args.debug) {  // -d, --debug flag
+            this.debuggable = true;
+        }
     }
 
     private setPath(): void {
