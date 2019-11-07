@@ -3,5 +3,7 @@ import { Target } from "./Target";
 import { Action } from "./Action";
 
 export {
-    Hitokoto
+    Hitokoto,
+    Target,
+    Action
 };

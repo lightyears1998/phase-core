@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs-extra";
 import figlet from "figlet";
 import { createConnection, Connection } from "typeorm";
+import { createConnection, Connection, Entity, getConnection } from "typeorm";
 import { AppConfig } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
@@ -14,9 +15,11 @@ export class App {
     programDir: string
     configPath: string
     mainDBPath: string
+    hitokotoDBPath: string
 
     config: AppConfig
-    mainDBConnection: Connection
+    private mainDBConnection: Connection
+    private hitokotoDBConnection: Connection
 
     constructor() {
         this.setDebuggable();
@@ -30,6 +33,13 @@ export class App {
         return packageInfo.version;
     }
 
+    public getMainDBConnection() {
+        return this.mainDBConnection;
+    }
+
+    public getHitokotoDBConnection() {
+        return this.hitokotoDBConnection;
+    }
     private setDebuggable(): void {
         this.debuggable = process.env.NODE_ENV === "development";
     }
@@ -38,25 +48,26 @@ export class App {
         const platform = os.platform();
         const homeDir = os.homedir();
 
+        this.programDir = "";
         switch (platform) {
             case "win32": {
                 this.programDir = path.resolve(homeDir + "/AppData/Local/Phase");
-                this.configPath = path.resolve(this.programDir + "/config.json");
-                this.mainDBPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
 
             case "linux": {
                 this.programDir = path.resolve(homeDir + "/.phase");
-                this.configPath = path.resolve(this.programDir + "/config.json");
-                this.mainDBPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
-
-            default: {
-                throw "不支持的平台：" + platform;
-            }
         }
+
+        if (this.programDir === "") {
+            throw "不支持的平台：" + platform;
+        }
+
+        this.configPath = path.resolve(this.programDir + "/config.json");
+        this.mainDBPath = path.resolve(this.programDir + "/main.sqlite3");
+        this.hitokotoDBPath = path.resolve(this.programDir + "/hitokoto.sqlite3");
     }
 
     private ensurePath(): void {
@@ -84,13 +95,28 @@ export class App {
 
     private async initDB(): Promise<void> {
         await createConnection({
-            type:        "sqlite",
-            database:    this.mainDBPath,
-            entities:    Object.values(entities),
+            name:     "main",
+            type:     "sqlite",
+            database: this.mainDBPath,
+            entities: [
+                entities.Target, entities.Action
+            ],
             logging:     this.debuggable,
             synchronize: true
-        }).then(conn => this.mainDBConnection = conn)
+        })
+            .then(conn => this.mainDBConnection = conn)
             .catch(err => console.log(err));
+
+        await createConnection({
+            name:        "hitokoto",
+            type:        "sqlite",
+            database:    this.hitokotoDBPath,
+            entities:    [entities.Hitokoto],
+            logging:     this.debuggable,
+            synchronize: true
+        })
+            .then(conn => this.hitokotoDBConnection = conn)
+            .catch(err => console.error(err));
     }
 
     private printTitle(): void {

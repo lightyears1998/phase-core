@@ -1,4 +1,3 @@
-import { getConnection } from "typeorm";
 import request from "request-promise";
 import { Hitokoto } from "../entity";
 import { app } from "../";
@@ -6,14 +5,14 @@ import { app } from "../";
 
 export class HitokotoService {
     public static async random(): Promise<Hitokoto> {
-        const repo = getConnection().getRepository(Hitokoto);
+        const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
         const hitokoto = await repo.createQueryBuilder().orderBy("RANDOM()").getOne();
         return hitokoto;
     }
 
     public static save(hitokoto: Hitokoto): void {
         if (hitokoto != null) {
-            const repo = getConnection().getRepository(Hitokoto);
+            const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
             repo.save(hitokoto);
         }
     }
@@ -32,7 +31,7 @@ export class HitokotoService {
     public static async removeRandomHitokotos(): Promise<void> {
         const limit = 1024;
 
-        const repo = getConnection().getRepository(Hitokoto);
+        const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
         const count = await repo.count();
         if (count > limit) {
             const random = await repo.createQueryBuilder().orderBy("RANDOM()").limit(count - limit).getMany();
