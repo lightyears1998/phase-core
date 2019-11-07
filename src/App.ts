@@ -92,12 +92,15 @@ export class App {
         await this.initConfig();
         await this.initDB();
 
+        let shouldRun = true;
+
         if (this.config.updateHitokotoAtStartup) {
             HitokotoService.update();
         }
 
-        this.printTitle();
-        this.greeting();
+        if (shouldRun) {
+            this.run();
+        }
     }
 
     private async initConfig(): Promise<void> {
@@ -130,6 +133,12 @@ export class App {
             .then(conn => this.hitokotoDBConnection = conn)
             .catch(err => console.error(err));
     }
+
+    private async run(): Promise<void> {
+        this.printTitle();
+        this.greeting();
+    }
+
 
     private printTitle(): void {
         const textArt = (text): string => figlet.textSync(text, "Star Wars");
