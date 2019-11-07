@@ -33,14 +33,16 @@
         "eslint-plugin-import": "^2.18.2",
         "eslint-watch": "^6.0.1",
         "nodemon": "^1.19.4",
+        "@types/inquirer": "^6.5.0",
         "typescript": "^3.6.4"
     },
     "dependencies": {
-        "@types/inquirer": "^6.5.0",
         "chalk": "^2.4.2",
+        "commander": "^4.0.0",
         "figlet": "^1.2.4",
         "file-system": "^2.2.2",
         "inquirer": "^7.0.0",
+        "open": "^7.0.0",
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.0",
         "request-promise": "^4.2.5",

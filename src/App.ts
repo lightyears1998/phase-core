@@ -10,6 +10,7 @@ import * as entities from "./entity";
 
 export class App {
     debuggable: boolean
+    programDir: string
     configPath: string
     dbPath: string
 
@@ -22,6 +23,12 @@ export class App {
         this.ensurePath();
     }
 
+    public get version() {
+        const packageJSON = fs.readFileSync(path.join(__dirname, "/../package.json"), { encoding: "utf8" });
+        const packageInfo = JSON.parse(packageJSON);
+        return packageInfo.version;
+    }
+
     private setDebuggable(): void {
         this.debuggable = process.env.NODE_ENV === "development";
     }
@@ -32,16 +39,16 @@ export class App {
 
         switch (platform) {
             case "win32": {
-                const projectRoot = path.resolve(homeDir + "/AppData/Local/Phase");
-                this.configPath = path.resolve(projectRoot + "/config.json");
-                this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
+                this.programDir = path.resolve(homeDir + "/AppData/Local/Phase");
+                this.configPath = path.resolve(this.programDir + "/config.json");
+                this.dbPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
 
             case "linux": {
-                const projectRoot = path.resolve(homeDir + "/.phase");
-                this.configPath = path.resolve(projectRoot + "/config.json");
-                this.dbPath = path.resolve(projectRoot + "/db.sqlite3");
+                this.programDir = path.resolve(homeDir + "/.phase");
+                this.configPath = path.resolve(this.programDir + "/config.json");
+                this.dbPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
 
