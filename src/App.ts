@@ -12,7 +12,7 @@ export class App {
     debuggable: boolean
     programDir: string
     configPath: string
-    dbPath: string
+    mainDBPath: string
 
     config: AppConfig
     mainDBConnection: Connection
@@ -41,14 +41,14 @@ export class App {
             case "win32": {
                 this.programDir = path.resolve(homeDir + "/AppData/Local/Phase");
                 this.configPath = path.resolve(this.programDir + "/config.json");
-                this.dbPath = path.resolve(this.programDir + "/db.sqlite3");
+                this.mainDBPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
 
             case "linux": {
                 this.programDir = path.resolve(homeDir + "/.phase");
                 this.configPath = path.resolve(this.programDir + "/config.json");
-                this.dbPath = path.resolve(this.programDir + "/db.sqlite3");
+                this.mainDBPath = path.resolve(this.programDir + "/db.sqlite3");
                 break;
             }
 
@@ -60,7 +60,7 @@ export class App {
 
     private ensurePath(): void {
         fs.mkdirSync(path.dirname(this.configPath));
-        fs.mkdirSync(path.dirname(this.dbPath));
+        fs.mkdirSync(path.dirname(this.mainDBPath));
     }
 
     public async start(): Promise<void> {
@@ -83,7 +83,7 @@ export class App {
     private async initDB(): Promise<void> {
         await createConnection({
             type:        "sqlite",
-            database:    this.dbPath,
+            database:    this.mainDBPath,
             entities:    Object.values(entities),
             logging:     this.debuggable,
             synchronize: true
