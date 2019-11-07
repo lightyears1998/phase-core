@@ -4,14 +4,15 @@ import fs from "fs-extra";
 import figlet from "figlet";
 import open from "open";
 import minimist from "minimist";
-import { createConnection, Connection, Entity, getConnection } from "typeorm";
+import { createConnection, Connection } from "typeorm";
+import { AppArgs } from "./AppArgs";
 import { AppConfig } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
 
 
 export class App {
-    args: minimist.ParsedArgs;
+    args: AppArgs;
     debuggable: boolean
 
     programDir: string
@@ -46,12 +47,12 @@ export class App {
     }
 
     private parseCommandArgs() {
-        this.args = minimist(process.argv.slice(2));
+        this.args = new AppArgs();
     }
 
     private setDebuggable(): void {
         this.debuggable = process.env.NODE_ENV === "development";
-        if (this.args.d || this.args.debug) {  // -d, --debug flag
+        if (this.args.hasFlag("d") || this.args.hasFlag("debug")) { // -d, --debug
             this.debuggable = true;
         }
     }
@@ -92,12 +93,12 @@ export class App {
         await this.initConfig();
         await this.initDB();
 
-        let shouldRun = true;
-
         if (this.config.updateHitokotoAtStartup) {
             HitokotoService.update();
         }
 
+        let shouldRun = true;
+        
         if (shouldRun) {
             this.run();
         }
