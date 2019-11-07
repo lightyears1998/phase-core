@@ -23,6 +23,7 @@
     "devDependencies": {
         "@types/chalk": "^2.2.0",
         "@types/figlet": "^1.2.0",
+        "@types/fs-extra": "^8.0.1",
         "@types/inquirer": "^6.5.0",
         "@types/node": "^12.12.3",
         "@types/request": "^2.48.3",
@@ -40,7 +41,7 @@
         "chalk": "^2.4.2",
         "commander": "^4.0.0",
         "figlet": "^1.2.4",
-        "file-system": "^2.2.2",
+        "fs-extra": "^8.1.0",
         "inquirer": "^7.0.0",
         "open": "^7.0.0",
         "reflect-metadata": "^0.1.13",

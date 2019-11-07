@@ -1,6 +1,6 @@
 import os from "os";
 import path from "path";
-import fs from "file-system";
+import fs from "fs-extra";
 import figlet from "figlet";
 import { createConnection, Connection } from "typeorm";
 import { AppConfig } from "./AppConfig";
@@ -10,6 +10,7 @@ import * as entities from "./entity";
 
 export class App {
     debuggable: boolean
+
     programDir: string
     configPath: string
     mainDBPath: string
@@ -59,8 +60,9 @@ export class App {
     }
 
     private ensurePath(): void {
-        fs.mkdirSync(path.dirname(this.configPath));
-        fs.mkdirSync(path.dirname(this.mainDBPath));
+        fs.ensureDirSync(path.dirname(this.programDir));
+        fs.ensureDirSync(path.dirname(this.configPath));
+        fs.ensureDirSync(path.dirname(this.mainDBPath));
     }
 
     public async start(): Promise<void> {
