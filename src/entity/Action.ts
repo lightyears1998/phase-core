@@ -1,7 +1,11 @@
 import { Column, Entity } from "typeorm";
-import { BaseEntity } from "./BaseEntity";
+import { BasicAttributes } from "./BasicAttributes";
+
+export enum ActionStatus {
+    ESTABLISHED = "established"
+}
 
 @Entity()
-export class Action extends BaseEntity {
+export class Action  {
     @Column() summary: string;
 }

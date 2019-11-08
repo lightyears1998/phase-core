@@ -169,7 +169,7 @@
                                 "data": {
                                     "id": "bpvadbr8ads0",
                                     "created": 1542420317347,
-                                    "text": "开始时间BeginDate",
+                                    "text": "开始时间startDate",
                                     "expandState": "expand",
                                     "layout": null
                                 },
@@ -179,7 +179,7 @@
                                 "data": {
                                     "id": "by8v5kp9qv40",
                                     "created": 1573048500172,
-                                    "text": "结束时间CompleteDate"
+                                    "text": "结束时间endDate"
                                 },
                                 "children": []
                             },
@@ -187,7 +187,7 @@
                                 "data": {
                                     "id": "by8v5s4ycn40",
                                     "created": 1573048516357,
-                                    "text": "时长Length"
+                                    "text": "时长length"
                                 },
                                 "children": []
                             }
@@ -205,7 +205,7 @@
                                 "data": {
                                     "id": "by8pocsz46o0",
                                     "created": 1573033045241,
-                                    "text": "已建立Established"
+                                    "text": "已建立established"
                                 },
                                 "children": []
                             },
@@ -213,7 +213,7 @@
                                 "data": {
                                     "id": "by8uboivzqw0",
                                     "created": 1573046157568,
-                                    "text": "已暂停Suspended"
+                                    "text": "已暂停suspended"
                                 },
                                 "children": []
                             },
@@ -221,7 +221,7 @@
                                 "data": {
                                     "id": "by8ubst0ygo0",
                                     "created": 1573046166888,
-                                    "text": "已达成Complete"
+                                    "text": "已达成complete"
                                 },
                                 "children": []
                             },
@@ -229,7 +229,7 @@
                                 "data": {
                                     "id": "by8ubkxy2fs0",
                                     "created": 1573046149771,
-                                    "text": "已删除Deleted"
+                                    "text": "已删除deleted"
                                 },
                                 "children": []
                             }
