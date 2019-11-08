@@ -95,14 +95,14 @@ export class App {
         this.updateHitokoto();
 
         let shouldLaunchUI = true;
-        let command = this.args.consumeComand();
-        while (command != null) {
+        let getNextCommand = this.args.consumeComand;
+        for (let command = getNextCommand(); command != null; command = getNextCommand()) {
             if (command === "data") {
                 open(this.programDir);
                 shouldLaunchUI = false;
             }
-            command = this.args.consumeComand();
         }
+
         if (shouldLaunchUI) {
             this.launchUI();
         }
