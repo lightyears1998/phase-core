@@ -31,21 +31,21 @@ export class App {
         this.ensurePath();
     }
 
-    public get version() {
+    public get version(): string {
         const packageJSON = fs.readFileSync(path.join(__dirname, "/../package.json"), { encoding: "utf8" });
         const packageInfo = JSON.parse(packageJSON);
         return packageInfo.version;
     }
 
-    public getMainDBConnection() {
+    public getMainDBConnection(): Connection {
         return this.mainDBConnection;
     }
 
-    public getHitokotoDBConnection() {
+    public getHitokotoDBConnection(): Connection {
         return this.hitokotoDBConnection;
     }
 
-    private parseCommandArgs() {
+    private parseCommandArgs(): void {
         this.args = new AppArgs();
     }
 
@@ -140,7 +140,7 @@ export class App {
     }
 
 
-    private updateHitokoto() {
+    private updateHitokoto(): void {
         if (this.config.updateHitokotoAtStartup) {
             HitokotoService.update();
         }
