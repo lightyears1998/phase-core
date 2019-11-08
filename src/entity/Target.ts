@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { BasicAttributes } from "./BasicAttributes";
+import { Time } from "./Time";
 
 
 enum TargetStatus {
@@ -11,7 +11,12 @@ enum TargetStatus {
 
 
 @Entity()
-export class Target  {
+export class Target {
+    @PrimaryGeneratedColumn("uuid") id: string;
+    @CreateDateColumn() createAt: Date;
+    @UpdateDateColumn() updateAt: Date;
+    @Column(() => Time) time: Time;
+    @Column() status: TargetStatus;
     @Column() order: number
     @Column() summary: string
     @Column() detail: string
