@@ -29,6 +29,7 @@
         "@types/node": "^12.12.3",
         "@types/request": "^2.48.3",
         "@types/request-promise": "^4.1.44",
+        "@types/yargs": "^13.0.3",
         "@typescript-eslint/eslint-plugin": "^2.3.2",
         "@typescript-eslint/parser": "^2.3.2",
         "cross-env": "^6.0.3",
@@ -43,12 +44,12 @@
         "figlet": "^1.2.4",
         "fs-extra": "^8.1.0",
         "inquirer": "^7.0.0",
-        "minimist": "^1.2.0",
         "open": "^7.0.0",
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.0",
         "request-promise": "^4.2.5",
         "sqlite3": "^4.1.0",
-        "typeorm": "^0.2.20"
+        "typeorm": "^0.2.20",
+        "yargs": "^14.2.0"
     }
 }

@@ -3,7 +3,6 @@ import path from "path";
 import fs from "fs-extra";
 import figlet from "figlet";
 import open from "open";
-import minimist from "minimist";
 import { createConnection, Connection } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig } from "./AppConfig";
@@ -93,14 +92,19 @@ export class App {
         await this.initConfig();
         await this.initDB();
 
-        if (this.config.updateHitokotoAtStartup) {
-            HitokotoService.update();
-        }
+        this.updateHitokoto();
 
-        let shouldRun = true;
-        
-        if (shouldRun) {
-            this.run();
+        let shouldLaunchUI = true;
+        let command = this.args.consumeComand();
+        while (command != null) {
+            if (command === "data") {
+                open(this.programDir);
+                shouldLaunchUI = false;
+            }
+            command = this.args.consumeComand();
+        }
+        if (shouldLaunchUI) {
+            this.launchUI();
         }
     }
 
@@ -135,7 +139,14 @@ export class App {
             .catch(err => console.error(err));
     }
 
-    private async run(): Promise<void> {
+
+    private updateHitokoto() {
+        if (this.config.updateHitokotoAtStartup) {
+            HitokotoService.update();
+        }
+    }
+
+    private async launchUI(): Promise<void> {
         this.printTitle();
         this.greeting();
     }

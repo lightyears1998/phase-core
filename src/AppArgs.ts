@@ -1,15 +1,22 @@
-import minimist from "minimist";
-
+import yargs, { Arguments } from "yargs";
 
 export class AppArgs {
-    rawArgs: minimist.ParsedArgs
+    rawArgs: Arguments
 
     constructor() {
-        this.rawArgs = minimist(process.argv.slice(2));
-        console.log(this);
+        this.rawArgs = yargs
+            .command("data", "打开应用程序数据文件夹")
+            .argv;
     }
 
     public hasFlag(flag: string): boolean {
-        return Boolean(this.rawArgs._[flag] || this.rawArgs["--"][flag] || this.rawArgs[flag]);
+        return Boolean(this.rawArgs._[flag] || this.rawArgs[flag]);
+    }
+
+    public consumeComand(): string {
+        if (this.rawArgs._.length === 0) {
+            return null;
+        }
+        return this.rawArgs._.shift();
     }
 }
