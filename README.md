@@ -1,5 +1,7 @@
 # phase-core
 
+[![Build Status](https://travis-ci.com/lightyears1998/phase-core.svg?branch=master)](https://travis-ci.com/lightyears1998/phase-core)
+
 > 不要嘗試隱藏系統的複雜性，否則就會得到一個更複雜的系統。
 
 ## 同步算法
