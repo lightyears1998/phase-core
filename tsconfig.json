@@ -5,8 +5,6 @@
         "moduleResolution": "Node",
         "resolveJsonModule": true,
         "outDir": "lib",
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
         "inlineSourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true

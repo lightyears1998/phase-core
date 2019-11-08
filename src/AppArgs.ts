@@ -1,7 +1,7 @@
-import yargs, { Arguments } from "yargs";
+import * as yargs from "yargs";
 
 export class AppArgs {
-    rawArgs: Arguments
+    rawArgs: yargs.Arguments
 
     constructor() {
         this.rawArgs = yargs
