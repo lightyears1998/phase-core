@@ -14,6 +14,7 @@
         "lint": "esw src --ext .ts",
         "lint:fix": "yarn lint --fix",
         "lint:watch": "yarn lint:fix --watch --changed --clear",
+        "test": "echo 'No test speccified.'",
         "build": "tsc",
         "build:watch": "yarn build --watch",
         "start": "node ./lib/index.js",
