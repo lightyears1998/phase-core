@@ -60,8 +60,6 @@ rules:
     - {
       ignoreEOLComments: true
     }
-  no-unused-vars:
-    - warn
   no-return-await:
     - error
   wrap-iife:
