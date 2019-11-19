@@ -4,9 +4,9 @@
 [![Build Status](https://travis-ci.com/lightyears1998/phase-core.svg?branch=master)](https://travis-ci.com/lightyears1998/phase-core)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/11f4f72b02f146d6a5292898b34ff425)](https://www.codacy.com/manual/lightyears1998/phase-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lightyears1998/phase-core&amp;utm_campaign=Badge_Grade)
 
-![Size](https://img.shields.io/bundlephobia/min/phase-core)
-![Download](https://img.shields.io/npm/dw/phase-core)
-![Start](https://img.shields.io/github/stars/lightyears1998/phase-core)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@lightyears1998/phase-core)
+![npm](https://img.shields.io/npm/dw/@lightyears1998/phase-core)
+![Github Star](https://img.shields.io/github/stars/lightyears1998/phase-core)
 
 > 不要嘗試隱藏系統的複雜性，否則就會得到一個更複雜的系統。
 

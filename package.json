@@ -1,6 +1,6 @@
 {
     "name": "@lightyears1998/phase-core",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
     "repository": "https://github.com/lightyears1998/phase-core.git",
