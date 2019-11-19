@@ -1,9 +1,0 @@
-# IDE
-.vscode
-
-# Project
-!lib/**
-yarn-error.log
-
-# Runtime Files under Development Mode
-var

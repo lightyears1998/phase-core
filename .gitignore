@@ -1,7 +1,4 @@
-# IDE
-.vscode
-
-# Node.js
+# Node.js modules
 node_modules
 
 # Project
@@ -10,3 +7,6 @@ lib
 
 # Runtime Files under Development Mode
 var
+
+# IDE
+.vscode
