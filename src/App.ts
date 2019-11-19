@@ -104,7 +104,7 @@ export class App {
         }
 
         if (shouldLaunchMainUI) {
-            this.launchUI();
+            this.launchMainUI();
         }
     }
 
@@ -146,7 +146,7 @@ export class App {
         }
     }
 
-    private async launchUI(): Promise<void> {
+    private async launchMainUI(): Promise<void> {
         this.printTitle();
         this.greeting();
     }
