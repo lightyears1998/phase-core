@@ -3,11 +3,13 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import * as figlet from "figlet";
 import * as open from "open";
+import * as inquirer from "inquirer";
 import { createConnection, Connection } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
+import * as views from "./view";
 
 
 export class App {
@@ -122,6 +124,7 @@ export class App {
                 entities.Target, entities.Action
             ],
             logging:     this.debuggable,
+            logger:      "file",
             synchronize: true
         })
             .then(conn => this.mainDBConnection = conn)
@@ -133,6 +136,7 @@ export class App {
             database:    this.hitokotoDBPath,
             entities:    [entities.Hitokoto],
             logging:     this.debuggable,
+            logger:      "file",
             synchronize: true
         })
             .then(conn => this.hitokotoDBConnection = conn)
@@ -148,9 +152,22 @@ export class App {
 
     private async launchMainUI(): Promise<void> {
         this.printTitle();
-        this.greeting();
-    }
+        await this.greeting();
 
+        let shouldLoop = true;
+        while (shouldLoop) {
+            const answer = await inquirer.prompt(views.mainMenuOptions);
+            switch (answer.mainMenuOptions) {
+                case "设置": {
+                    console.log("未实现。");
+                    break;
+                }
+                case "退出": {
+                    shouldLoop = false;
+                }
+            }
+        }
+    }
 
     private printTitle(): void {
         const textArt = (text): string => figlet.textSync(text, "Star Wars");

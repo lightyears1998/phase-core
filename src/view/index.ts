@@ -1,1 +1,1 @@
-export { mainMenu } from "./MainMenu"
+export { mainMenuOptions } from "./MainMenu";
