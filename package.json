@@ -22,7 +22,6 @@
         "prepublish": "yarn build --declaration"
     },
     "devDependencies": {
-        "@types/chalk": "^2.2.0",
         "@types/figlet": "^1.2.0",
         "@types/fs-extra": "^8.0.1",
         "@types/inquirer": "^6.5.0",
@@ -41,7 +40,7 @@
         "typescript": "^3.6.4"
     },
     "dependencies": {
-        "chalk": "^2.4.2",
+        "chalk": "^3.0.0",
         "figlet": "^1.2.4",
         "fs-extra": "^8.1.0",
         "inquirer": "^7.0.0",
@@ -51,6 +50,6 @@
         "request-promise": "^4.2.5",
         "sqlite3": "^4.1.0",
         "typeorm": "^0.2.20",
-        "yargs": "^14.2.0"
+        "yargs": "^15.0.0"
     }
 }
