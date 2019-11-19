@@ -1,5 +1,5 @@
 {
-    "name": "phase-core",
+    "name": "@lightyears1998/phase-core",
     "version": "0.1.5",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
