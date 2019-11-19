@@ -15,7 +15,7 @@
         "phase": "./bin/cli.js"
     },
     "scripts": {
-        "clean": "rm -rf ./lib ./var ./ormlogs.log ./yarn-error.log",
+        "clean": "node ./bin/devutils.js clean",
         "lint": "esw src --ext .ts",
         "lint:fix": "yarn lint --fix",
         "lint:watch": "yarn lint:fix --watch --changed --clear",
