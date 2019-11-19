@@ -1,5 +1,1 @@
-import { HitokotoService } from "./HitokotoService";
-
-export {
-    HitokotoService
-};
+export { HitokotoService } from "./HitokotoService";
