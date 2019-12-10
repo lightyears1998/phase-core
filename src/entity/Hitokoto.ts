@@ -9,7 +9,7 @@ export class Hitokoto {
     @Column() creator: string;
     @Column() createdAt: Date;
 
-    public constructor(id?, content?, type?, from?, creator?, createdAt?) {
+    public constructor(id?: number, content?: string, type?: string, from?: string, creator?: string, createdAt?: Date) {
         this.id = id;
         this.content = content;
         this.type = type;
