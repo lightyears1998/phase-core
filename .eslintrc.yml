@@ -44,9 +44,6 @@ rules:
     - {
       SwitchCase: 1
     }
-  linebreak-style:
-    - warn
-    - unix
   no-console:
     - off
   no-trailing-spaces:
