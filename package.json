@@ -1,9 +1,9 @@
 {
-    "name": "@lightyears1998/phase-core",
+    "name": "@lightyears1998/day-primer-core",
     "version": "0.1.6",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
-    "repository": "https://github.com/lightyears1998/phase-core.git",
+    "repository": "https://github.com/lightyears1998/day-primer-core.git",
     "author": "lightyears1998 <lightyears1998@hotmail.com>",
     "license": "MIT",
     "files": [
