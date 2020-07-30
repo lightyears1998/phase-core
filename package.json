@@ -11,8 +11,11 @@
         "lib",
         "src"
     ],
+    "engines": {
+        "node": ">=13"
+    },
     "bin": {
-        "phase": "./bin/cli.js"
+        "dayp": "./bin/cli.mjs"
     },
     "scripts": {
         "clean": "node ./bin/devutils.js clean",
