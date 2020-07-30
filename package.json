@@ -15,7 +15,7 @@
         "node": ">=13"
     },
     "bin": {
-        "dayp": "./bin/cli.mjs"
+        "dayp": "./bin/cli.js"
     },
     "scripts": {
         "clean": "node ./bin/devutils.js clean",
@@ -26,8 +26,15 @@
         "build": "tsc",
         "build:watch": "yarn build --watch",
         "start": "node ./lib/index.js",
-        "start:dev": "cross-env NODE_ENV=development ts-node ./src/index.ts",
-        "prepublish": "yarn build --declaration"
+        "dev": "cross-env NODE_ENV=development ts-node ./src/index.ts",
+        "prepublish": "yarn build --declaration",
+        "prepkg": "yarn prepublish",
+        "pkg": "pkg ."
+    },
+    "pkg": {
+        "assets": [
+            "node_modules/figlet/fonts/**"
+        ]
     },
     "devDependencies": {
         "@lightyears1998/eslint-config-lightyears-style": "^1.0.0",

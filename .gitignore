@@ -1,8 +1,13 @@
 # Node.js modules
 node_modules
 
-# Project
+# Build result
 lib
+day-primer-core-linux
+day-primer-core-macos
+day-primer-core-win.exe
+
+# Logs
 **.log
 
 # Runtime Files under Development Mode

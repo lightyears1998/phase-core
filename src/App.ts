@@ -53,7 +53,7 @@ export class App {
 
     private setDebuggable(): void {
         this.debuggable = process.env.NODE_ENV === "development";
-        if (this.args.hasFlag("d") || this.args.hasFlag("debug")) { // -d, --debug
+        if (this.args.hasFlag("d") || this.args.hasFlag("debug")) {
             this.debuggable = true;
         }
     }
@@ -65,12 +65,12 @@ export class App {
         this.programDir = "";
         switch (platform) {
             case "win32": {
-                this.programDir = path.resolve(homeDir + "/AppData/Local/Phase");
+                this.programDir = path.resolve(homeDir + "/AppData/Local/DayPrimer");
                 break;
             }
 
-            case "linux": {
-                this.programDir = path.resolve(homeDir + "/.phase");
+            case "linux": case "darwin": {
+                this.programDir = path.resolve(homeDir + "/.DayPrimer");
                 break;
             }
         }
@@ -154,8 +154,8 @@ export class App {
         this.printTitle();
         await this.greeting();
 
-        let shouldLoop = true;
-        while (shouldLoop) {
+        let shouldRun = true;
+        while (shouldRun) {
             const answer = await inquirer.prompt(views.mainMenuOptions);
             switch (answer.mainMenuOptions) {
                 case "设置": {
@@ -163,14 +163,14 @@ export class App {
                     break;
                 }
                 case "退出": {
-                    shouldLoop = false;
+                    shouldRun = false;
                 }
             }
         }
     }
 
     private printTitle(): void {
-        const textArt = (text): string => figlet.textSync(text, "Star Wars");
+        const textArt = (text: string): string => figlet.textSync(text, "Star Wars");
         console.log(textArt("Phase"));
     }
 
