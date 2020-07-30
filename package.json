@@ -52,6 +52,7 @@
         "figlet": "^1.2.4",
         "fs-extra": "^8.1.0",
         "inquirer": "^7.0.0",
+        "koa": "^2.13.0",
         "open": "^7.0.0",
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.0",
