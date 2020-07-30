@@ -30,6 +30,7 @@
         "prepublish": "yarn build --declaration"
     },
     "devDependencies": {
+        "@lightyears1998/eslint-config-lightyears-style": "^1.0.0",
         "@types/figlet": "^1.2.0",
         "@types/fs-extra": "^9",
         "@types/inquirer": "^6.5.0",
