@@ -50,7 +50,7 @@
     "dependencies": {
         "chalk": "^3.0.0",
         "figlet": "^1.2.4",
-        "fs-extra": "^8.1.0",
+        "fs-extra": "^9",
         "inquirer": "^7.0.0",
         "koa": "^2.13.0",
         "open": "^7.0.0",
