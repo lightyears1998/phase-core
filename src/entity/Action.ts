@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+    Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn
+} from "typeorm";
 import { Time } from "./Time";
 
 

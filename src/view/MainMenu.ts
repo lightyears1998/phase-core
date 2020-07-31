@@ -8,6 +8,4 @@ const mainMenuOptions: DistinctQuestion = {
     choices: ["设置", "退出"]
 };
 
-export {
-    mainMenuOptions
-};
+export { mainMenuOptions };

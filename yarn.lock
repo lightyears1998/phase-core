@@ -24,9 +24,9 @@
     js-tokens "^4.0.0"
 
 "@lightyears1998/eslint-config-lightyears-style@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@lightyears1998/eslint-config-lightyears-style/-/eslint-config-lightyears-style-1.0.0.tgz#a48bcbfd5820c41ed2fd95199418a03262278e2e"
-  integrity sha512-YqaVJG72Qsh6KKy5hf8gS+owd/ltqvMq/aV4fcHUdwXeAE8I1yJZvAm+vkiZOnpOz3tIX6eEpqCEbW5U847ARQ==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@lightyears1998/eslint-config-lightyears-style/-/eslint-config-lightyears-style-1.0.3.tgz#b44be132080d4f86760420eb957c0e2cc23d3fad"
+  integrity sha512-S7fl8pPtR/Q3/9RQvQmCbshaZMIFt+mo5F604sOZhHgt2N7hyHBul+enMYopne3fYmRMgK843ju27M4acc1I1w==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"

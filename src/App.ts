@@ -117,12 +117,10 @@ export class App {
 
     private async initDB(): Promise<void> {
         await createConnection({
-            name:     "main",
-            type:     "sqlite",
-            database: this.mainDBPath,
-            entities: [
-                entities.Target, entities.Action
-            ],
+            name:        "main",
+            type:        "sqlite",
+            database:    this.mainDBPath,
+            entities:    [entities.Target, entities.Action],
             logging:     this.debuggable,
             logger:      "file",
             synchronize: true

@@ -19,7 +19,7 @@
     },
     "scripts": {
         "clean": "node ./bin/devutils.js clean",
-        "lint": "esw src --ext .ts",
+        "lint": "esw src --ext .ts --color",
         "lint:fix": "yarn lint --fix",
         "lint:watch": "yarn lint:fix --watch --changed --clear",
         "test": "echo 'No test speccified.'",
