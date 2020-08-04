@@ -1,3 +1,4 @@
-export { Hitokoto } from "./Hitokoto";
-export { Target } from "./Target";
-export { Action } from "./Action";
+export * from "./User";
+export * from "./Hitokoto";
+export * from "./Target";
+export * from "./Action";

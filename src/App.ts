@@ -120,7 +120,9 @@ export class App {
             name:        "main",
             type:        "sqlite",
             database:    this.mainDBPath,
-            entities:    [entities.Target, entities.Action],
+            entities:    [
+                entities.Target, entities.Action, entities.User
+            ],
             logging:     this.debuggable,
             logger:      "file",
             synchronize: true

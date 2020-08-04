@@ -1,0 +1,4 @@
+{
+    "restartable": false,
+    "comments@restartable": "在开发环境中需要禁用 Nodemon 重启功能，因为这个功能会与 inquirer 冲突。见 <https://github.com/remy/nodemon/blob/master/faq.md#nodemon-doesnt-work-with-my-repl>"
+}
