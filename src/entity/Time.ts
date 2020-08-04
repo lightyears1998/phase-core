@@ -1,5 +1,6 @@
 import { Column } from "typeorm";
 
+
 export class Time {
     @Column() start: Date
     @Column() span: Date
