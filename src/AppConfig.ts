@@ -1,8 +1,17 @@
 import { writeFile, readFileSync } from "fs";
 
 export class AppConfig {
-    updateHitokotoAtStartup = false;
+    public updateHitokotoAtStartup: boolean;
+}
 
+
+export const defaultAppConfig = {
+    updateHitokotoAtStartup: true,
+} as AppConfig;
+
+
+
+export class AppConfigSerilizer {
     public static async load(filepath: string): Promise<AppConfig> {
         const config = new AppConfig();
 
