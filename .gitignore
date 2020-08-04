@@ -10,6 +10,9 @@ day-primer-core-win.exe
 # Logs
 **.log
 
+# Sensitive Configuration
+.env
+
 # Runtime Files under Development Mode
 var
 
