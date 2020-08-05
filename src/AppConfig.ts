@@ -5,9 +5,7 @@ export class AppConfig {
 }
 
 
-export const defaultAppConfig = {
-    updateHitokotoAtStartup: true,
-} as AppConfig;
+export const defaultAppConfig = { updateHitokotoAtStartup: true } as AppConfig;
 
 
 

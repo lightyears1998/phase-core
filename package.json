@@ -19,7 +19,8 @@
     },
     "scripts": {
         "clean": "node ./bin/devutils.js clean",
-        "lint": "esw src --ext .ts --color",
+        "linter": "esw --ext .ts --color",
+        "lint": "yarn linter src",
         "lint:fix": "yarn lint --fix",
         "lint:watch": "yarn lint:fix --watch --changed --clear",
         "test": "echo 'No test speccified.'",
@@ -30,6 +31,14 @@
         "prepublish": "yarn build --declaration",
         "prepkg": "yarn prepublish",
         "pkg": "pkg ."
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.ts": "yarn linter"
     },
     "pkg": {
         "assets": [
@@ -52,6 +61,8 @@
         "eslint": "^7",
         "eslint-plugin-import": "^2.18.2",
         "eslint-watch": "^7",
+        "husky": "^4.2.5",
+        "lint-staged": "^10.2.11",
         "nodemon": "^2.0.4",
         "typescript": "~3.9"
     },

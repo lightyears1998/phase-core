@@ -3,13 +3,11 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import * as figlet from "figlet";
 import * as open from "open";
-import * as inquirer from "inquirer";
 import { createConnection, Connection } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
-import * as views from "./view";
 import { MainMenuView } from "./view";
 
 
@@ -114,7 +112,7 @@ export class App {
                 console.log(err);
 
                 if (err.isTtyError) {
-                    console.error("当前环境不是 TTY，交互模式需要在 TTY 环境下使用。")
+                    console.error("当前环境不是 TTY，交互模式需要在 TTY 环境下使用。");
                 }
             }
         }
@@ -127,14 +125,15 @@ export class App {
 
     private async initDB(): Promise<void> {
         await createConnection({
-            name:        "main",
-            type:        "sqlite",
-            database:    this.mainDBPath,
-            entities:    [
-                entities.Target, entities.Action, entities.User
+            name:     "main",
+            type:     "sqlite",
+            database: this.mainDBPath,
+            entities: [
+                entities.Target, entities.Action, entities.User,
+                entities.UserAuth
             ],
             logging:     this.debuggable,
-            logger:      "file",
+            logger:      "advanced-console",
             synchronize: true
         })
             .then(conn => this.mainDBConnection = conn)
@@ -146,7 +145,7 @@ export class App {
             database:    this.hitokotoDBPath,
             entities:    [entities.Hitokoto],
             logging:     this.debuggable,
-            logger:      "file",
+            logger:      "advanced-console",
             synchronize: true
         })
             .then(conn => this.hitokotoDBConnection = conn)
@@ -181,7 +180,7 @@ export class App {
         }
     }
 
-    public stop(code?: number) {
+    public stop(code?: number): void {
         this.shouldStop = true;
         if (code) {
             process.exitCode = code;
