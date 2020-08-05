@@ -5,10 +5,7 @@ import { prompt, InputQuestion } from "inquirer";
 
 
 export class UserView extends RouterView {
-    protected choices = [
-        new Route("切换用户", new SwitchUserView().invoke),
-        new Route("新建用户", new CreateUserView().invoke)
-    ]
+    protected choices = [new Route("切换用户", new SwitchUserView().invoke), new Route("新建用户", new CreateUserView().invoke)]
 }
 
 

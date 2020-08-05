@@ -129,7 +129,9 @@ export class App {
             type:     "sqlite",
             database: this.mainDBPath,
             entities: [
-                entities.Target, entities.Action, entities.User,
+                entities.Target,
+                entities.Action,
+                entities.User,
                 entities.UserAuth
             ],
             logging:     this.debuggable,

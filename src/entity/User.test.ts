@@ -17,7 +17,9 @@ describe("Entity/User", () => {
         expect(validate("")).to.be.an.instanceof(UsernameEmptyError);
 
         [
-            " ", "a ", " b"
+            " ",
+            "a ",
+            " b"
         ].forEach(kase => {
             expect(validate(kase)).to.be.an.instanceof(UsernameStartsOrEndsWithWhitespaceError);
         });
@@ -28,14 +30,29 @@ describe("Entity/User", () => {
         expect(validate(tooLongUsername)).to.be.an.instanceof(UsernameTooLongError);
 
         [
-            "^", "~", "!", "@", ":", "/", "\\", "<", ">", "\"", "|", "*", "?", "$", "\u0000"
-        ]
-            .map(kase => "leftPadding" + kase).forEach(kase => {
-                expect(validate(kase)).to.be.an.instanceof(UsernameContainsInvalidCharaterError);
-            });
+            "^",
+            "~",
+            "!",
+            "@",
+            ":",
+            "/",
+            "\\",
+            "<",
+            ">",
+            "\"",
+            "|",
+            "*",
+            "?",
+            "$",
+            "\u0000"
+        ].map(kase => "leftPadding" + kase).forEach(kase => {
+            expect(validate(kase)).to.be.an.instanceof(UsernameContainsInvalidCharaterError);
+        });
 
         [
-            "lightyears1998", "good_user_name", "Tommas Hiller"
+            "lightyears1998",
+            "good_user_name",
+            "Tommas Hiller"
         ].forEach(kase => {
             expect(validate(kase)).to.be.true;
         });
