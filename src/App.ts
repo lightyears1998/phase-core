@@ -6,15 +6,17 @@ import * as open from "open";
 import * as inquirer from "inquirer";
 import { createConnection, Connection } from "typeorm";
 import { AppArgs } from "./AppArgs";
-import { AppConfig } from "./AppConfig";
+import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
 import * as views from "./view";
+import { MainMenuView } from "./view";
 
 
 export class App {
     args: AppArgs;
     debuggable: boolean
+    shouldStop = false;
 
     programDir: string
     configPath: string
@@ -96,23 +98,31 @@ export class App {
 
         this.updateHitokoto();
 
-        let shouldLaunchMainUI = true;
+        let shouldLaunchInteractiveUI = true;
         const getNextCommand = this.args.consumeComand.bind(this.args);
         for (let command = getNextCommand(); command != null; command = getNextCommand()) {
             if (command === "data") {
                 open(this.programDir);
-                shouldLaunchMainUI = false;
+                shouldLaunchInteractiveUI = false;
             }
         }
 
-        if (shouldLaunchMainUI) {
-            this.launchMainUI();
+        if (shouldLaunchInteractiveUI) {
+            try {
+                this.launchInteractiveUI();
+            } catch (err) {
+                console.log(err);
+
+                if (err.isTtyError) {
+                    console.error("当前环境不是 TTY，交互模式需要在 TTY 环境下使用。")
+                }
+            }
         }
     }
 
     private async initConfig(): Promise<void> {
-        this.config = await AppConfig.load(this.configPath);
-        AppConfig.save(this.config, this.configPath);
+        this.config = await AppConfigSerilizer.load(this.configPath);
+        AppConfigSerilizer.save(this.config, this.configPath);
     }
 
     private async initDB(): Promise<void> {
@@ -150,34 +160,31 @@ export class App {
         }
     }
 
-    private async launchMainUI(): Promise<void> {
+    private async launchInteractiveUI(): Promise<void> {
         this.printTitle();
         await this.greeting();
 
-        let shouldRun = true;
-        while (shouldRun) {
-            const answer = await inquirer.prompt(views.mainMenuOptions);
-            switch (answer.mainMenuOptions) {
-                case "设置": {
-                    console.log("未实现。");
-                    break;
-                }
-                case "退出": {
-                    shouldRun = false;
-                }
-            }
+        while (!this.shouldStop) {
+            await new MainMenuView().invoke();
         }
     }
 
     private printTitle(): void {
         const textArt = (text: string): string => figlet.textSync(text, "Star Wars");
-        console.log(textArt("Phase"));
+        console.log(textArt("DayP"));
     }
 
     private async greeting(): Promise<void> {
         const hitokoto = await HitokotoService.random();
         if (hitokoto != null) {
             console.log(`［一言］${hitokoto.content} ——${hitokoto.from}`);
+        }
+    }
+
+    public stop(code?: number) {
+        this.shouldStop = true;
+        if (code) {
+            process.exitCode = code;
         }
     }
 }
