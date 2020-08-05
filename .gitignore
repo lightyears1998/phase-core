@@ -8,6 +8,7 @@ day-primer-core-macos
 day-primer-core-win.exe
 
 # Logs
+report.**.json
 **.log
 
 # Sensitive Configuration
