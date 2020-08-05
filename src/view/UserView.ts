@@ -1,4 +1,6 @@
-import { View, RouterView, Route } from "./common"
+import {
+    View, RouterView, Route
+} from "./common";
 import { prompt, InputQuestion } from "inquirer";
 
 
@@ -17,7 +19,7 @@ export class CreateUserView extends View {
         }
 
         if (username.length > 16) {
-            return "用户名不能超过 16 字符。"
+            return "用户名不能超过 16 字符。";
         }
     }
 
@@ -30,15 +32,13 @@ export class CreateUserView extends View {
 
         const questions = [
             {
-                name: "username",
-                type: 'input',
-                message: "请输入用户名",
+                name:     "username",
+                type:     "input",
+                message:  "请输入用户名",
                 validate: this.validateUsername
             } as InputQuestion,
-            {
-                name: "createPassword"
-            }
-        ]
+            { name: "createPassword" }
+        ];
     }
 }
 
