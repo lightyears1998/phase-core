@@ -2,7 +2,7 @@ import { View } from "./View";
 import * as inquirer from "inquirer";
 
 
-export class RouterChoice {
+export class Route {
     /**
      * 显示在列表中的选项的名称
      */
@@ -30,19 +30,22 @@ export class RouterChoice {
  * 以列表形式呈现选项，每个选项对应一个函数操作
  */
 export abstract class RouterView extends View {
-    protected abstract choices: Array<RouterChoice>
+    protected abstract choices: Array<Route>
 
     public async invoke(): Promise<void> {
         const questionName = this.name || this.constructor.name;
 
         const question: inquirer.ListQuestion = {
-            name: questionName,
+            name:    questionName,
             message: this.name || undefined,
-            type: 'list',
+            type:    "list",
             choices: this.choices
-        }
+        };
 
         const answer = await inquirer.prompt(question);
-        await answer[questionName]();
+        const action = answer[questionName];
+        if (typeof action === "function") {
+            await action();
+        }
     }
 }
