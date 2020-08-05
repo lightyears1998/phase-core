@@ -1,10 +1,11 @@
 import { ListQuestion } from "inquirer";
+import { RouterView, Route } from "./common";
+import { UserView } from "./UserView";
 
-/*
- * 打印当前配置文件
- * 询问是否要更改配置文件
- * 询问是否更新Hitokoto
- */
-function setup() {
 
+export class SetupView extends RouterView {
+    protected choices = [
+        new Route("用户管理", new UserView().invoke),
+        new Route("返回上层", null)
+    ]
 }
