@@ -9,6 +9,7 @@ import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
 import { MainMenuView } from "./view";
+import inquirer = require("inquirer");
 
 
 export class App {

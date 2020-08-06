@@ -1,41 +1,59 @@
 import {
     View, RouterView, Route
 } from "./common";
-import { prompt, InputQuestion } from "inquirer";
+import {
+    prompt, InputQuestion, ConfirmQuestion, PasswordQuestion
+} from "inquirer";
+import { User } from "../entity";
 
 
 export class UserView extends RouterView {
-    protected choices = [new Route("切换用户", new SwitchUserView().invoke), new Route("新建用户", new CreateUserView().invoke)]
+    protected choices = [
+        new Route("切换用户", new SwitchUserView()),
+        new Route("新建用户", new CreateUserView()),
+        new Route("返回主菜单", null)
+    ]
 }
 
 
 export class CreateUserView extends View {
-    private validateUsername(username: string): boolean | string {
-        if (!username) {
-            return "用户名不能为空。";
-        }
-
-        if (username.length > 16) {
-            return "用户名不能超过 16 字符。";
-        }
-    }
-
     public async invoke(): Promise<void> {
         enum answerKeys {
-            username,
-            shouldCreatePassword,
-            password
+            username = "username",
+            shouldCreatePassword = "shouldCreatePassword",
+            password = "password"
         }
+
+        const validateUsername = (inputUsername: string) => {
+            const result = User.validateUsername(inputUsername);
+            if (result instanceof Error) {
+                return result.message;
+            }
+            return true;
+        };
 
         const questions = [
             {
-                name:     "username",
+                name:     answerKeys.username,
                 type:     "input",
                 message:  "请输入用户名",
-                validate: this.validateUsername
+                validate: validateUsername
             } as InputQuestion,
-            { name: "createPassword" }
+            {
+                name:    answerKeys.shouldCreatePassword,
+                type:    "confirm",
+                message: "要创建密码吗？有密码的账户可以远程登录。"
+            } as ConfirmQuestion,
+            {
+                name:    answerKeys.password,
+                type:    "password",
+                message: "请输入密码",
+                when:    (ans) => ans[answerKeys.shouldCreatePassword]
+            } as PasswordQuestion
         ];
+
+        const input = await prompt(questions);
+        console.log(input);
     }
 }
 

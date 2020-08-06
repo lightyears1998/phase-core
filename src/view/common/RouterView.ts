@@ -1,5 +1,6 @@
 import { View } from "./View";
 import * as inquirer from "inquirer";
+import { isUndefined } from "util";
 
 
 export class Route {
@@ -10,15 +11,18 @@ export class Route {
 
     /**
      * 选项对应的操作
+     *
+     * - 若为 View 则 invoke；
+     * - 若为异步函数，则调用。
      */
-    public value: () => Promise<void> | void
+    public value: View | (() => Promise<void>)
 
     /**
      * 完成选择后显示的提示
      */
     public short?: string
 
-    public constructor(name: string, value: () => Promise<void> | void, short?: string) {
+    public constructor(name: string, value: View | (() => Promise<void>), short?: string) {
         this.name = name;
         this.value = value;
         this.short = short;
@@ -43,9 +47,15 @@ export abstract class RouterView extends View {
         };
 
         const answer = await inquirer.prompt(question);
-        const action = answer[questionName];
-        if (typeof action === "function") {
-            await action();
+        const funcOrView = answer[questionName];
+        if (typeof funcOrView === "function") {
+            await funcOrView();
+        } else if (funcOrView instanceof View) {
+            await (funcOrView as View).invoke();
+        } else if (funcOrView === null || funcOrView === undefined) {
+            // 不做任何事情。
+        } else {
+            throw TypeError("value 类型必须为 Function 或 View。");
         }
     }
 }

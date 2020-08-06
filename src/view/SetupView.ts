@@ -4,5 +4,5 @@ import { UserView } from "./UserView";
 
 
 export class SetupView extends RouterView {
-    protected choices = [new Route("用户管理", new UserView().invoke), new Route("返回上层", null)]
+    protected choices = [new Route("用户管理", new UserView()), new Route("返回主菜单", null)]
 }
