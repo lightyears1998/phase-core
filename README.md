@@ -8,6 +8,10 @@
 ![npm](https://img.shields.io/npm/dw/@lightyears1998/day-primer-core)
 ![Github Star](https://img.shields.io/github/stars/lightyears1998/day-primer-core)
 
+## 警告：现阶段的代码丑！而！且！乱
+
+---
+
 > 不要嘗試隱藏系統的複雜性，否則就會得到一個更複雜的系統。
 
 暂时不分离CORE与CLI。分离时应该借助mocha对CORE进行单元测试以保证正确性。
