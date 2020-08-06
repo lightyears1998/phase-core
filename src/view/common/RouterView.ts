@@ -15,14 +15,14 @@ export class Route {
      * - 若为 View 则 invoke；
      * - 若为异步函数，则调用。
      */
-    public value: View | (() => Promise<void>)
+    public value: View | (() => Promise<void> | void)
 
     /**
      * 完成选择后显示的提示
      */
     public short?: string
 
-    public constructor(name: string, value: View | (() => Promise<void>), short?: string) {
+    public constructor(name: string, value: View | (() => Promise<void> | void), short?: string) {
         this.name = name;
         this.value = value;
         this.short = short;
