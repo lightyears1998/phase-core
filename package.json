@@ -48,6 +48,8 @@
     },
     "devDependencies": {
         "@lightyears1998/eslint-config-lightyears-style": "^1.0.0",
+        "@types/bcrypt": "^3.0.0",
+        "@types/chai": "^4.2.12",
         "@types/figlet": "^1.2.0",
         "@types/fs-extra": "^9",
         "@types/inquirer": "^7.3.0",
@@ -56,10 +58,10 @@
         "@types/node": "^14.0.27",
         "@types/request": "^2.48.3",
         "@types/request-promise": "^4.1.44",
+        "@types/validator": "^13.1.0",
         "@types/yargs": "^15.0.5",
         "@typescript-eslint/eslint-plugin": "^3.7.1",
         "@typescript-eslint/parser": "^3.7.1",
-        "@types/chai": "^4.2.12",
         "chai": "^4.2.0",
         "cross-env": "^7",
         "eslint": "^7",
@@ -73,6 +75,7 @@
         "typescript": "~3.9"
     },
     "dependencies": {
+        "bcrypt": "^5.0.0",
         "chalk": "~4.1",
         "figlet": "^1.2.4",
         "fs-extra": "^9",
@@ -84,6 +87,7 @@
         "request-promise": "^4.2.5",
         "sqlite3": "^5",
         "typeorm": "^0.2.20",
+        "validator": "^13.1.1",
         "yargs": "^15.0.0"
     }
 }

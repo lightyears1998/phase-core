@@ -1,7 +1,8 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, getManager
 } from "typeorm";
-import { UserAuth, AuthType } from ".";
+import { UserAuthInfo } from ".";
+import validator from "validator";
 
 
 /**
@@ -57,12 +58,17 @@ export class User {
     @Column()
     public status: UserStatus
 
+    /** 全小写的邮箱 */
     @Column({ nullable: true })
-    public email?: string
+    public lowercaseEmail?: string
 
-    @OneToOne(() => UserAuth)
+    /** 显示邮箱 */
+    @Column({ nullable: true })
+    public displayEmail?: string
+
+    @OneToOne(() => UserAuthInfo)
     @JoinColumn()
-    public auth: UserAuth;
+    public auth: UserAuthInfo;
 
     /**
      * - 用户名不能为空字符串。
@@ -91,27 +97,9 @@ export class User {
             return true;
         }
         return new UsernameContainsInvalidCharaterError();
-
     }
 
-    public static async createLocalUser(username: string): Promise<User> {
-        const db = getManager();
-
-        const userAuth = {
-            allowLocalAccess:  AuthType.NO_AUTH,
-            allowRemoteAccess: AuthType.FORBID
-        } as Partial<UserAuth>;
-
-        const user = {
-            status: UserStatus.NORMAL,
-            username,
-            auth:   userAuth
-        } as Partial<User>;
-
-        return await db.save(user) as User;
-    }
-
-    public static async createUser(username: string, email: string, password: string): Promise<User> {
-        return; // @TODO
+    public static validateEmail(email: string): boolean {
+        return validator.isEmail(email)
     }
 }

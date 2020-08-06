@@ -5,6 +5,8 @@ import {
     prompt, InputQuestion, ConfirmQuestion, PasswordQuestion
 } from "inquirer";
 import { User } from "../entity";
+import { UserController } from "../control";
+import PasswordPrompt = require("inquirer/lib/prompts/password");
 
 
 export class UserView extends RouterView {
@@ -20,8 +22,9 @@ export class CreateUserView extends View {
     public async invoke(): Promise<void> {
         enum answerKeys {
             username = "username",
-            shouldCreatePassword = "shouldCreatePassword",
-            password = "password"
+            shouldCreateRemoteAccess = "shouldCreateRemoteAccess",
+            password = "password",
+            email = "email"
         }
 
         const validateUsername = (inputUsername: string) => {
@@ -32,6 +35,14 @@ export class CreateUserView extends View {
             return true;
         };
 
+        const validatePassword = (inputPassword: string) => {
+            return !(inputPassword.length === 0);
+        }
+
+        const validateEmail = (inputEmail: string) => {
+            return inputEmail.trim() === "" || User.validateEmail(inputEmail);
+        }
+
         const questions = [
             {
                 name:     answerKeys.username,
@@ -40,26 +51,40 @@ export class CreateUserView extends View {
                 validate: validateUsername
             } as InputQuestion,
             {
-                name:    answerKeys.shouldCreatePassword,
+                name:    answerKeys.shouldCreateRemoteAccess,
                 type:    "confirm",
-                message: "要创建密码吗？有密码的账户可以远程登录。"
+                message: "要为账户启用远程登录吗？"
             } as ConfirmQuestion,
             {
                 name:    answerKeys.password,
                 type:    "password",
+                mask: "*",
                 message: "请输入密码",
-                when:    (ans) => ans[answerKeys.shouldCreatePassword]
-            } as PasswordQuestion
+                when:    (ans) => ans[answerKeys.shouldCreateRemoteAccess],
+                validate: validatePassword
+            } as PasswordQuestion,
+            {
+                name: answerKeys.email,
+                type: "input",
+                message: "请输入邮箱地址（可选）",
+                when: (ans) => ans[answerKeys.shouldCreateRemoteAccess],
+                validate: validateEmail
+            }
         ];
 
-        const input = await prompt(questions);
-        console.log(input);
+        const userInput = await prompt<Record<answerKeys, string>>(questions);
+        if (userInput.password) {
+            UserController.createUser(userInput.username.trim(), userInput.password, userInput.email.trim());
+        } else {
+            UserController.createLocalUser(userInput.username.trim())
+        }
     }
 }
 
 
 export class SwitchUserView extends View {
     public async invoke(): Promise<void> {
-        // @TODO
+        const users = await UserController.listAllUsers();
+        console.table(users);
     }
 }

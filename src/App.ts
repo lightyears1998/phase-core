@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import * as figlet from "figlet";
 import * as open from "open";
-import { createConnection, Connection } from "typeorm";
+import { createConnection, Connection, getManager, EntityManager } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
@@ -26,7 +26,7 @@ export class App {
     private mainDBConnection: Connection
     private hitokotoDBConnection: Connection
 
-    constructor() {
+    public constructor() {
         this.parseCommandArgs();
         this.setDebuggable();
 
@@ -46,6 +46,14 @@ export class App {
 
     public getHitokotoDBConnection(): Connection {
         return this.hitokotoDBConnection;
+    }
+
+    public getMainDBManager(): EntityManager {
+        return getManager(this.getMainDBConnection().name);
+    }
+
+    public getHitokotoDBManager(): EntityManager {
+        return getManager(this.getHitokotoDBConnection().name);
     }
 
     private parseCommandArgs(): void {
@@ -133,7 +141,7 @@ export class App {
                 entities.Target,
                 entities.Action,
                 entities.User,
-                entities.UserAuth
+                entities.UserAuthInfo
             ],
             logging:     this.debuggable,
             logger:      "advanced-console",

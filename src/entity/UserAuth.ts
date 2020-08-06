@@ -3,7 +3,7 @@ import {
 } from "typeorm";
 
 
-export enum AuthType {
+export enum UserAuthType {
     /** 无需验证直接放行 */
     NO_AUTH = "no_auth",
 
@@ -23,15 +23,15 @@ export enum AuthType {
  * 用户凭证相关
  */
 @Entity()
-export class UserAuth {
+export class UserAuthInfo {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column()
-    allowLocalAccess: AuthType
+    allowLocalAccess: UserAuthType
 
     @Column()
-    allowRemoteAccess: AuthType
+    allowRemoteAccess: UserAuthType
 
     @Column({ nullable: true })
     passwordHash: string
