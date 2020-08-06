@@ -2,6 +2,7 @@
 node_modules
 
 # Build result
+.tsbuildinfo
 lib
 day-primer-core-linux
 day-primer-core-macos
