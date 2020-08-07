@@ -1,4 +1,6 @@
-import { PrimaryGeneratedColumn, UpdateDateColumn, Column, CreateDateColumn, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import {
+    PrimaryGeneratedColumn, UpdateDateColumn, Column, CreateDateColumn, OneToMany, OneToOne, JoinColumn
+} from "typeorm";
 
 
 export enum VersionControlStatus {
@@ -20,9 +22,7 @@ export class VersionControlEmbbedEntity {
     @Column()
     status: VersionControlStatus
 
-    @OneToOne(() => VersionControlEmbbedEntity, {
-        nullable: true
-    })
+    @OneToOne(() => VersionControlEmbbedEntity, { nullable: true })
     @JoinColumn()
     public previousVersion: VersionControlEmbbedEntity;
 }

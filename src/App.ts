@@ -3,7 +3,9 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import figlet from "figlet";
 import open from "open";
-import { createConnection, Connection, getManager, EntityManager } from "typeorm";
+import {
+    createConnection, Connection, getManager, EntityManager
+} from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
@@ -151,7 +153,7 @@ export class App {
             type:     "sqlite",
             database: this.mainDBPath,
             entities: [
-                entities.Target,
+                entities.TargetEntity,
                 entities.Action,
                 entities.User,
                 entities.UserAuthInfo,
@@ -178,7 +180,7 @@ export class App {
     }
 
     private initCLI(): void {
-        registerPrompt('autocomplete', AutocompletePrompt);
+        registerPrompt("autocomplete", AutocompletePrompt);
     }
 
     private updateHitokoto(): void {

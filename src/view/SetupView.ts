@@ -11,6 +11,6 @@ export class SetupView extends RouterView {
         new Route("用户管理", new UserView()),
         new Route("关于", new AboutView()),
         new Separator(),
-        new Route("返回主菜单", null),
+        new Route("返回主菜单", null)
     ]
 }

@@ -10,12 +10,14 @@ export class AppMetadata {
 
         await Promise.all(Object.entries(this).map(async entry => {
             const key = entry[0], value = entry[1];
-            await db.save(AppMetadataEntity, {key, value});
+            await db.save(AppMetadataEntity, { key, value });
         }));
     }
 
     public async saveKey(key: string, value: string) {
-        Object.defineProperty(this, key, { value, configurable: true, enumerable: true, writable: true });
+        Object.defineProperty(this, key, {
+            value, configurable: true, enumerable: true, writable: true
+        });
 
         const db = app.getMainDBManager();
         await db.save(AppMetadataEntity, { key, value });
@@ -27,8 +29,10 @@ export class AppMetadata {
 
         const metadata = new AppMetadata();
         entries.forEach(entry => {
-            Object.defineProperty(metadata, entry.key, { value: entry.value, configurable: true, enumerable: true, writable: true });
-        })
+            Object.defineProperty(metadata, entry.key, {
+                value: entry.value, configurable: true, enumerable: true, writable: true
+            });
+        });
 
         return metadata;
     }

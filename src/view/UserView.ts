@@ -38,11 +38,11 @@ export class CreateUserView extends View {
 
         const validatePassword = (inputPassword: string) => {
             return !(inputPassword.length === 0);
-        }
+        };
 
         const validateEmail = (inputEmail: string) => {
             return inputEmail.trim() === "" || User.validateEmail(inputEmail);
-        }
+        };
 
         const questions = [
             {
@@ -57,18 +57,18 @@ export class CreateUserView extends View {
                 message: "要为账户启用远程登录吗？"
             } as ConfirmQuestion,
             {
-                name:    answerKeys.password,
-                type:    "password",
-                mask: "*",
-                message: "请输入密码",
-                when:    (ans) => ans[answerKeys.shouldCreateRemoteAccess],
+                name:     answerKeys.password,
+                type:     "password",
+                mask:     "*",
+                message:  "请输入密码",
+                when:     (ans) => ans[answerKeys.shouldCreateRemoteAccess],
                 validate: validatePassword
             } as PasswordQuestion,
             {
-                name: answerKeys.email,
-                type: "input",
-                message: "请输入邮箱地址（可选）",
-                when: (ans) => ans[answerKeys.shouldCreateRemoteAccess],
+                name:     answerKeys.email,
+                type:     "input",
+                message:  "请输入邮箱地址（可选）",
+                when:     (ans) => ans[answerKeys.shouldCreateRemoteAccess],
                 validate: validateEmail
             }
         ];
@@ -77,7 +77,7 @@ export class CreateUserView extends View {
         if (userInput.password) {
             UserController.createUser(userInput.username.trim(), userInput.password, userInput.email.trim());
         } else {
-            UserController.createLocalUser(userInput.username.trim())
+            UserController.createLocalUser(userInput.username.trim());
         }
     }
 }
@@ -89,15 +89,15 @@ export class SwitchUserView extends View {
 
         const choices = users.map(user => {
             return user.displayEmail ? `${user.username} <${user.displayEmail}>` : user.username;
-        })
+        });
 
-        const searchChoices = (_: any, input: string | undefined) => {
-            input = input || '';
+        const searchChoices = (_: unknown, input: string | undefined) => {
+            input = input || "";
             return new Promise((resolve) => {
                 const result = fuzzy.filter(input, choices);
                 resolve(result.map(item => item.original));
-            })
-        }
+            });
+        };
 
         enum answerKeys {
             SELECTED_USER = "selected_user",
@@ -106,29 +106,29 @@ export class SwitchUserView extends View {
 
         const answers = await prompt([
             {
-                type: "autocomplete",
-                name: answerKeys.SELECTED_USER,
+                type:    "autocomplete",
+                name:    answerKeys.SELECTED_USER,
                 message: "选择用户身份",
-                source: searchChoices,
+                source:  searchChoices
             },
             {
-                type: "confirm",
-                name: answerKeys.COMFIRM_SWITCH_USER,
+                type:    "confirm",
+                name:    answerKeys.COMFIRM_SWITCH_USER,
                 message: (ans) => {
-                    return `确认切换到用户 ${ans[answerKeys.SELECTED_USER]} 吗？`
+                    return `确认切换到用户 ${ans[answerKeys.SELECTED_USER]} 吗？`;
                 }
             } as ConfirmQuestion
         ]);
 
         if (answers[answerKeys.COMFIRM_SWITCH_USER]) {
             // username 形如 "lightyears <lightyears@qfstudio.net>" 或 "lightyears"
-            const username = (answers[answerKeys.SELECTED_USER] as string).split('<')[0].trim();
+            const username = (answers[answerKeys.SELECTED_USER] as string).split("<")[0].trim();
             const user = await UserController.findUserByUsername(username);
             if (user) {
                 await app.loginUser(user);
                 console.log(`切换为 ${user.username}`);
             } else {
-                console.log("无法切换到该用户，因为该用户不存在。")
+                console.log("无法切换到该用户，因为该用户不存在。");
             }
         }
     }

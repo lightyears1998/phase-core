@@ -101,6 +101,6 @@ export class User {
     }
 
     public static validateEmail(email: string): boolean {
-        return validator.isEmail(email)
+        return validator.isEmail(email);
     }
 }

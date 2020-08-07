@@ -22,9 +22,7 @@ export class TargetEntity {
     @CreateDateColumn()
     public createdAt: Date
 
-    @OneToOne(() => TargetProperties, {
-        eager: true
-    })
+    @OneToOne(() => TargetProperties, { eager: true })
     @JoinColumn()
     public description: TargetProperties;
 }

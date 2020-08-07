@@ -1,6 +1,6 @@
 {
     "name": "@lightyears1998/day-primer-core",
-    "version": "0.1.6",
+    "version": "0.1.7-giving-up-VersionControlEmbbedEntity",
     "main": "./lib/index.js",
     "types": "./lib/index.d.ts",
     "repository": "https://github.com/lightyears1998/day-primer-core.git",

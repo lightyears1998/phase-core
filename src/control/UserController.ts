@@ -1,6 +1,8 @@
-import { User, UserStatus, UserAuthInfo, UserAuthType } from "../entity";
+import {
+    User, UserStatus, UserAuthInfo, UserAuthType
+} from "../entity";
 import { hash, genSalt } from "bcrypt";
-import { app } from ".."
+import { app } from "..";
 
 
 export class UserController {
@@ -14,7 +16,7 @@ export class UserController {
 
         let user = {
             status: UserStatus.NORMAL,
-            username,
+            username
         } as Partial<User>;
 
         try {
@@ -22,8 +24,8 @@ export class UserController {
                 userAuth = await db.save(UserAuthInfo, userAuth);
                 user.auth = userAuth as UserAuthInfo;
                 user = await db.save(User, user);
-            })
-        } catch(e) {
+            });
+        } catch (e) {
             console.log(e);
             throw e;
         }
@@ -37,30 +39,30 @@ export class UserController {
         const passwordHash = await hash(password, salt);
 
         let userAuth = {
-            allowLocalAccess: UserAuthType.NO_AUTH,
+            allowLocalAccess:  UserAuthType.NO_AUTH,
             allowRemoteAccess: UserAuthType.PASSWORD,
             passwordHash,
             passwordUpdatedAt: new Date()
-        } as Partial<UserAuthInfo>
+        } as Partial<UserAuthInfo>;
 
         const lowercaseEmail = email ? email.toLowerCase() : null;
         const displayEmail = email ? email : null;
 
         let user = {
             username: username,
-            status: UserStatus.NORMAL,
+            status:   UserStatus.NORMAL,
             lowercaseEmail,
             displayEmail,
-            auth: userAuth
-        } as Partial<User>
+            auth:     userAuth
+        } as Partial<User>;
 
         try {
             db.transaction(async (db) => {
                 userAuth = await db.save(UserAuthInfo, userAuth);
                 user.auth = userAuth as UserAuthInfo;
                 user = await db.save(User, user);
-            })
-        } catch(e) {
+            });
+        } catch (e) {
             console.log(e);
             throw e;
         }

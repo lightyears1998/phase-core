@@ -61,12 +61,17 @@ describe("Entity/User", () => {
     it("#validateEmail", () => {
         const validate = User.validateEmail;
 
-        [".", "@host.com", "lightyears", "lightyears@qfstudio"].forEach(kase => {
+        [
+            ".",
+            "@host.com",
+            "lightyears",
+            "lightyears@qfstudio"
+        ].forEach(kase => {
             expect(validate(kase), kase).to.be.false;
         });
 
         ["lightyears@QFSTUDIO.net", "Lightyears@qfstudio.net"].forEach(kase => {
             expect(validate(kase), kase).to.be.true;
-        })
+        });
     });
 });
