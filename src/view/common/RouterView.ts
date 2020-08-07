@@ -43,19 +43,19 @@ export abstract class RouterView extends View {
             name:    questionName,
             message: this.name || undefined,
             type:    "list",
-            choices: this.choices
+            choices: this.choices.filter(choice => choice !== null && choice !== undefined)
         };
 
         const answer = await inquirer.prompt(question);
         const funcOrView = answer[questionName];
-        if (typeof funcOrView === "function") {
-            await funcOrView();
-        } else if (funcOrView instanceof View) {
-            await (funcOrView as View).invoke();
-        } else if (funcOrView === null || funcOrView === undefined) {
-            // 不做任何事情。
-        } else {
-            throw TypeError("value 类型必须为 Function 或 View。");
+        if (funcOrView !== null && funcOrView !== undefined) {
+            if (typeof funcOrView === "function") {
+                await funcOrView();
+            } else if (funcOrView instanceof View) {
+                await (funcOrView as View).invoke();
+            } else {
+                throw TypeError("value 类型必须为 Function 或 View。");
+            }
         }
     }
 }

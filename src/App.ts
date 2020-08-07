@@ -14,7 +14,7 @@ import { MainMenuView } from "./view";
 import { User } from "./entity";
 import { AppMetadata } from "./AppMetadata";
 import { registerPrompt } from "inquirer";
-import * as AutocompletePrompt from "inquirer-autocomplete-prompt";
+import AutocompletePrompt from "inquirer-autocomplete-prompt";
 
 
 export class App {
@@ -160,10 +160,10 @@ export class App {
                 entities.TargetEntity,
                 entities.TargetAttachment,
                 entities.Action,
+                entities.ActionAttachment,
                 entities.User,
                 entities.UserAuthInfo,
                 entities.AppMetadataEntity,
-                entities.Timespan
             ],
             logging:     this.debuggable,
             logger:      "advanced-console",
@@ -224,6 +224,11 @@ export class App {
         if (this.currentUser) {
             await this.metadata.saveKey("lastLoginUserId", this.currentUser.id);
         }
+    }
+
+    public async logoutUser(): Promise<void> {
+        this.currentUser = null;
+        await this.metadata.saveKey("lastLoginUserId", null);
     }
 
     private async greeting(): Promise<void> {

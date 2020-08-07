@@ -14,6 +14,9 @@ export enum TargetStatus {
     /** 暂停 */
     SUSPENDED = "suspended",
 
+    /** 专注中 */
+    FOCUSING = "focusing",
+
     /** 完成 */
     COMPLETED = "completed",
 
@@ -62,5 +65,5 @@ export class TargetEntity {
 @Entity()
 export class TargetAttachment extends Attachment {
     @ManyToOne(() => TargetEntity, target => target.attachments)
-    public owner: TargetEntity
+    public attchedTo: TargetEntity
 }

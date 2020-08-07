@@ -1,5 +1,5 @@
 import {
-    PrimaryGeneratedColumn, Column, Entity, ManyToOne
+    PrimaryGeneratedColumn, Column
 } from "typeorm";
 
 
@@ -7,7 +7,7 @@ export abstract class Attachment {
     @PrimaryGeneratedColumn("uuid")
     public id: string;
 
-    public owner: unknown;
+    public attchedTo: unknown;
 
     /**
      * 附件在文件系统中的路径

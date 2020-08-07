@@ -1,9 +1,10 @@
 import {
-    Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne
+    Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany
 } from "typeorm";
 import { Timespan } from "./Timespan";
 import { TargetEntity } from "./Target";
 import { User } from "./User";
+import { Attachment } from "./Attachment";
 
 
 export enum ActionStatus {
@@ -55,5 +56,16 @@ export class Action {
     @Column(() => Timespan)
     public time: Timespan;
 
-    @Column() status: ActionStatus;
+    @Column()
+    public status: ActionStatus;
+
+    @OneToMany(() => ActionAttachment, attachment => attachment.attchedTo)
+    public attachments: Attachment[]
+}
+
+
+@Entity()
+export class ActionAttachment extends Attachment {
+    @ManyToOne(() => Action, action => action.attachments)
+    public attchedTo: Action
 }

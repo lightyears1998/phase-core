@@ -1,4 +1,4 @@
-import { View } from "typeorm/schema-builder/view/View";
+import { View } from "./common";
 
 
 export class FocusView extends View {

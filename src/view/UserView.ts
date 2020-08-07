@@ -14,6 +14,7 @@ export class UserView extends RouterView {
     protected choices = [
         new Route("切换用户", new SwitchUserView()),
         new Route("新建用户", new CreateUserView()),
+        app.getCurrentUser() ? new Route("退出当前用户", new LogoutUserView()) : null,
         new Route("返回主菜单", null)
     ]
 }
@@ -130,6 +131,25 @@ export class SwitchUserView extends View {
             } else {
                 console.log("无法切换到该用户，因为该用户不存在。");
             }
+        }
+    }
+}
+
+
+export class LogoutUserView extends View {
+    public async invoke(): Promise<void> {
+        const answerKey = "confirm"
+
+        const answer = await prompt([
+            {
+                type: "confirm",
+                name: answerKey,
+                message: "要退出登录当前用户吗？"
+            }
+        ])
+
+        if (answer[answerKey]) {
+            await app.logoutUser();
         }
     }
 }
