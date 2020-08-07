@@ -9,22 +9,28 @@ import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import { HitokotoService } from "./control";
 import * as entities from "./entity";
 import { MainMenuView } from "./view";
-import inquirer = require("inquirer");
+import { User } from "./entity";
+import { AppMetadata } from "./AppMetadata";
+import { registerPrompt } from "inquirer";
+import * as AutocompletePrompt from "inquirer-autocomplete-prompt";
 
 
 export class App {
-    args: AppArgs;
-    debuggable: boolean
-    shouldStop = false;
+    private args: AppArgs;
+    public debuggable: boolean
+    private shouldStop = false;
 
-    programDir: string
-    configPath: string
-    mainDBPath: string
-    hitokotoDBPath: string
+    private programDir: string
+    private configPath: string
+    private mainDBPath: string
+    private hitokotoDBPath: string
 
-    config: AppConfig
+    private config: AppConfig
+    private metadata: AppMetadata
     private mainDBConnection: Connection
     private hitokotoDBConnection: Connection
+
+    private currentUser?: User
 
     public constructor() {
         this.parseCommandArgs();
@@ -102,6 +108,7 @@ export class App {
     public async start(): Promise<void> {
         await this.initConfig();
         await this.initDB();
+        await this.initMetadata();
 
         this.updateHitokoto();
 
@@ -115,6 +122,8 @@ export class App {
         }
 
         if (shouldLaunchInteractiveUI) {
+            this.initCLI();
+
             try {
                 this.launchInteractiveUI();
             } catch (err) {
@@ -132,6 +141,10 @@ export class App {
         AppConfigSerilizer.save(this.config, this.configPath);
     }
 
+    private async initMetadata(): Promise<void> {
+        this.metadata = await AppMetadata.load();
+    }
+
     private async initDB(): Promise<void> {
         await createConnection({
             name:     "main",
@@ -141,7 +154,8 @@ export class App {
                 entities.Target,
                 entities.Action,
                 entities.User,
-                entities.UserAuthInfo
+                entities.UserAuthInfo,
+                entities.AppMetadataEntity
             ],
             logging:     this.debuggable,
             logger:      "advanced-console",
@@ -163,6 +177,9 @@ export class App {
             .catch(err => console.error(err));
     }
 
+    private initCLI(): void {
+        registerPrompt('autocomplete', AutocompletePrompt);
+    }
 
     private updateHitokoto(): void {
         if (this.config.updateHitokotoAtStartup) {
@@ -172,6 +189,7 @@ export class App {
 
     private async launchInteractiveUI(): Promise<void> {
         this.printTitle();
+        await this.loginUser();
         await this.greeting();
 
         while (!this.shouldStop) {
@@ -184,10 +202,32 @@ export class App {
         console.log(textArt("DayP"));
     }
 
+    public async loginUser(user?: User): Promise<void> {
+        if (user) {
+            this.currentUser = user;
+        } else if (this.metadata.lastLoginUserId) {
+            const db = this.getMainDBManager();
+            const user = await db.findOne(User, { id: this.metadata.lastLoginUserId });
+            if (user) {
+                this.currentUser = user;
+            }
+        }
+
+        if (this.currentUser) {
+            await this.metadata.saveKey("lastLoginUserId", this.currentUser.id);
+        }
+    }
+
     private async greeting(): Promise<void> {
         const hitokoto = await HitokotoService.random();
         if (hitokoto != null) {
             console.log(`［一言］${hitokoto.content} ——${hitokoto.from}`);
+        }
+
+        if (this.currentUser) {
+            console.log(`欢迎回来，${this.currentUser.username}。`);
+        } else {
+            console.log("未登录。");
         }
     }
 

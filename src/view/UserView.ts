@@ -6,7 +6,8 @@ import {
 } from "inquirer";
 import { User } from "../entity";
 import { UserController } from "../control";
-import PasswordPrompt = require("inquirer/lib/prompts/password");
+import * as fuzzy from "fuzzy";
+import { app } from "..";
 
 
 export class UserView extends RouterView {
@@ -85,6 +86,50 @@ export class CreateUserView extends View {
 export class SwitchUserView extends View {
     public async invoke(): Promise<void> {
         const users = await UserController.listAllUsers();
-        console.table(users);
+
+        const choices = users.map(user => {
+            return user.displayEmail ? `${user.username} <${user.displayEmail}>` : user.username;
+        })
+
+        const searchChoices = (_: any, input: string | undefined) => {
+            input = input || '';
+            return new Promise((resolve) => {
+                const result = fuzzy.filter(input, choices);
+                resolve(result.map(item => item.original));
+            })
+        }
+
+        enum answerKeys {
+            SELECTED_USER = "selected_user",
+            COMFIRM_SWITCH_USER = "comfirm_switch_user"
+        }
+
+        const answers = await prompt([
+            {
+                type: "autocomplete",
+                name: answerKeys.SELECTED_USER,
+                message: "选择用户身份",
+                source: searchChoices,
+            },
+            {
+                type: "confirm",
+                name: answerKeys.COMFIRM_SWITCH_USER,
+                message: (ans) => {
+                    return `确认切换到用户 ${ans[answerKeys.SELECTED_USER]} 吗？`
+                }
+            } as ConfirmQuestion
+        ]);
+
+        if (answers[answerKeys.COMFIRM_SWITCH_USER]) {
+            // username 形如 "lightyears <lightyears@qfstudio.net>" 或 "lightyears"
+            const username = (answers[answerKeys.SELECTED_USER] as string).split('<')[0].trim();
+            const user = await UserController.findUserByUsername(username);
+            if (user) {
+                await app.loginUser(user);
+                console.log(`切换为 ${user.username}`);
+            } else {
+                console.log("无法切换到该用户，因为该用户不存在。")
+            }
+        }
     }
 }

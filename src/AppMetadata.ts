@@ -1,0 +1,46 @@
+import { app } from ".";
+import { AppMetadataEntity } from "./entity";
+
+
+export class AppMetadata {
+    public lastLoginUserId?: string
+
+    public async save(): Promise<void> {
+        const db = app.getMainDBManager();
+
+        await Promise.all(Object.entries(this).map(async entry => {
+            const key = entry[0], value = entry[1];
+            await db.save(AppMetadataEntity, {key, value});
+        }));
+    }
+
+    public async saveKey(key: string, value: string) {
+        Object.defineProperty(this, key, { value, configurable: true, enumerable: true, writable: true });
+
+        const db = app.getMainDBManager();
+        await db.save(AppMetadataEntity, { key, value });
+    }
+
+    public static async load(): Promise<AppMetadata> {
+        const db = app.getMainDBManager();
+        const entries = await db.find(AppMetadataEntity);
+
+        const metadata = new AppMetadata();
+        entries.forEach(entry => {
+            Object.defineProperty(metadata, entry.key, { value: entry.value, configurable: true, enumerable: true, writable: true });
+        })
+
+        return metadata;
+    }
+
+    public static async getKey(key: string): Promise<string> {
+        const db = app.getMainDBManager();
+
+        try {
+            const entry = await db.findOneOrFail(AppMetadataEntity, { key });
+            return entry.value;
+        } catch {
+            return null;
+        }
+    }
+}

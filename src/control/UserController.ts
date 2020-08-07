@@ -71,4 +71,9 @@ export class UserController {
         const db = app.getMainDBManager();
         return db.find(User);
     }
+
+    public static async findUserByUsername(username: string): Promise<User> {
+        const db = app.getMainDBManager();
+        return db.findOne(User, { username });
+    }
 }

@@ -1,5 +1,5 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, getManager
+    Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Unique
 } from "typeorm";
 import { UserAuthInfo } from ".";
 import validator from "validator";
@@ -48,6 +48,7 @@ export class UsernameContainsInvalidCharaterError extends Error {
 
 
 @Entity()
+@Unique("unique_username", ["username"])
 export class User {
     @PrimaryGeneratedColumn("uuid")
     public id: string
