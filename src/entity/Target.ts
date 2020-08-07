@@ -1,15 +1,26 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, ManyToMany
+    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, ManyToMany, UpdateDateColumn
 } from "typeorm";
 import { Timespan } from "./Timespan";
-import { VersionControlEmbbedEntity } from "./VersionControlEntity";
 import { Attachment } from "./Attachment";
+import { Action } from "./Action";
+import { User } from "./User";
 
 
-enum TargetStatus {
-    ESTABLISHED = "established",
+export enum TargetStatus {
+    /** 活跃状态 */
+    ACTIVE = "active",
+
+    /** 暂停 */
     SUSPENDED = "suspended",
-    COMPLETE = "complete",
+
+    /** 完成 */
+    COMPLETED = "completed",
+
+    /** 隐藏 */
+    HIDDEN = "hidden",
+
+    /** 删除 */
     DELETED = "deleted"
 }
 
@@ -22,26 +33,11 @@ export class TargetEntity {
     @CreateDateColumn()
     public createdAt: Date
 
-    @OneToOne(() => TargetProperties, { eager: true })
-    @JoinColumn()
-    public description: TargetProperties;
-}
+    @UpdateDateColumn()
+    public updatedAt: Date
 
-
-@Entity()
-export class TargetAttachment extends Attachment {
-    @ManyToOne(() => TargetProperties, target => target.attachments)
-    public owner: TargetEntity
-}
-
-
-@Entity()
-export class TargetProperties {
-    @OneToOne(() => TargetEntity)
-    public owner: TargetEntity;
-
-    @Column(() => VersionControlEmbbedEntity)
-    public version: VersionControlEmbbedEntity;
+    @OneToMany(() => User, user => user.targets)
+    public owner: User
 
     @Column()
     public status: TargetStatus;
@@ -52,9 +48,19 @@ export class TargetProperties {
     @Column()
     public description: string;
 
-    @Column()
-    public tiemspan: Timespan;
+    @Column(() => Timespan)
+    public timespan: Timespan;
 
-    @OneToMany(() => Attachment, attachment => attachment.filepath)
+    @OneToMany(() => Action, action => action.target)
+    public actions: Action[];
+
+    @OneToMany(() => TargetAttachment, attachment => attachment.filepath)
     public attachments: Attachment[]
+}
+
+
+@Entity()
+export class TargetAttachment extends Attachment {
+    @ManyToOne(() => TargetEntity, target => target.attachments)
+    public owner: TargetEntity
 }

@@ -1,5 +1,17 @@
 import { writeFile, readFileSync } from "fs";
 
+
+/**
+ * @todo 使用 yaml 多文档模式，最后一个文档添加版本和更新时间等元数据。
+ *
+ * ``` yml
+ * updateHitokotoAtStartup: false
+ * ...
+ * --------
+ * version: 1.0
+ * configuredAt: 2018.02.14
+ * ```
+ */
 export class AppConfig {
     public updateHitokotoAtStartup: boolean;
 }

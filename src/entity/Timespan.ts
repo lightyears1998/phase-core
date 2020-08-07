@@ -1,5 +1,4 @@
 import { Column } from "typeorm";
-import { RelationCountMetadata } from "typeorm/metadata/RelationCountMetadata";
 
 
 /**
@@ -8,9 +7,14 @@ import { RelationCountMetadata } from "typeorm/metadata/RelationCountMetadata";
  * - 如果 `start`, `span` 和 `end`，无论三者是否矛盾，函数的返回值按 `start` 和 `span` 计算。
  */
 export class Timespan {
-    @Column() public start: Date
-    @Column() public span: Date
-    @Column() public end: Date
+    @Column()
+    public start: Date
+
+    @Column()
+    public span: Date
+
+    @Column()
+    public end: Date
 
     public constructor(start?: Date, span?: Date) {
         this.start = start;

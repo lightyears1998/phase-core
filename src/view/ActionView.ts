@@ -1,8 +1,7 @@
 import { View } from "./common";
-import { TargetEntity } from "../entity";
 
 
-export class TargetView extends View {
+export class ActionView extends View {
     public async invoke(): Promise<void> {
         // @todo
     }

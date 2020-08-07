@@ -1,7 +1,7 @@
 import { RouterView, Route } from "./common";
 import { UserView } from "./UserView";
 import { AboutView } from "./AboutView";
-import { Separator } from "inquirer";
+import Separator from "inquirer/lib/objects/separator";
 
 
 export class SetupView extends RouterView {
@@ -12,5 +12,5 @@ export class SetupView extends RouterView {
         new Route("关于", new AboutView()),
         new Separator(),
         new Route("返回主菜单", null)
-    ]
+    ];
 }

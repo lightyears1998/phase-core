@@ -1,25 +1,59 @@
 import {
-    Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn
+    Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne
 } from "typeorm";
 import { Timespan } from "./Timespan";
+import { TargetEntity } from "./Target";
+import { User } from "./User";
 
 
 export enum ActionStatus {
-    ESTABLISHED = "established",
-    SUSPENDED = "suspended",
-    COMPLETE = "complete",
+    /** 待计划 */
+    NOT_PLANNED = "not-planned",
+
+    /** 已计划 */
+    PLANNED = "planned",
+
+    /** 行动完成 */
+    COMPLETED = "completed",
+
+    /** 行动中断 */
+    INTERRUPTED = "interrupted",
+
+    /** 行动失败 */
+    FAILED = "failed",
+
+    /** 已删除 */
     DELETED = "deleted"
 }
 
 
 @Entity()
 export class Action {
-    @PrimaryGeneratedColumn("uuid") id: string;
-    @CreateDateColumn() createAt: Date;
-    @UpdateDateColumn() updateAt: Date;
-    @Column(() => Timespan) time: Timespan;
+    @PrimaryGeneratedColumn("uuid")
+    public id: string;
+
+    @CreateDateColumn()
+    public createdAt: Date;
+
+    @UpdateDateColumn()
+    public updatedAt: Date;
+
+    @ManyToOne(() => User, user => user.actions)
+    public owner: User;
+
+    @ManyToOne(() => TargetEntity, target => target.actions, {
+        nullable: true
+    })
+    public target: TargetEntity;
+
+    @Column()
+    public name: string
+
+    @Column()
+    public description: string
+
+    @Column(() => Timespan)
+    public time: Timespan;
+
     @Column() status: ActionStatus;
-    @Column() order: number
-    @Column() summary: string
-    @Column() detail: string
 }

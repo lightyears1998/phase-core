@@ -1,8 +1,10 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Unique
+    Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Unique, OneToMany
 } from "typeorm";
 import { UserAuthInfo } from ".";
 import validator from "validator";
+import { TargetEntity } from "./Target";
+import { Action } from "./Action";
 
 
 /**
@@ -70,6 +72,12 @@ export class User {
     @OneToOne(() => UserAuthInfo)
     @JoinColumn()
     public auth: UserAuthInfo;
+
+    @OneToMany(() => TargetEntity, target => target.owner)
+    public targets: TargetEntity[]
+
+    @OneToMany(() => Action, action => action.owner)
+    public actions: Action[]
 
     /**
      * - 用户名不能为空字符串。

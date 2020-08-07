@@ -64,6 +64,10 @@ export class App {
         return getManager(this.getHitokotoDBConnection().name);
     }
 
+    public getCurrentUser(): User {
+        return this.currentUser;
+    }
+
     private parseCommandArgs(): void {
         this.args = new AppArgs();
     }
@@ -154,10 +158,12 @@ export class App {
             database: this.mainDBPath,
             entities: [
                 entities.TargetEntity,
+                entities.TargetAttachment,
                 entities.Action,
                 entities.User,
                 entities.UserAuthInfo,
-                entities.AppMetadataEntity
+                entities.AppMetadataEntity,
+                entities.Timespan
             ],
             logging:     this.debuggable,
             logger:      "advanced-console",
