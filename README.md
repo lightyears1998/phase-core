@@ -6,7 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/lightyears1998/day-primer-core/badge.svg?branch=master)](https://coveralls.io/github/lightyears1998/day-primer-core?branch=master)
 
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@lightyears1998/day-primer-core)
-![npm](https://img.shields.io/npm/dw/@lightyears1998/day-primer-core)
+![npm download per month](https://img.shields.io/npm/dm/@lightyears1998/day-primer-core)
 ![Github Star](https://img.shields.io/github/stars/lightyears1998/day-primer-core)
 
 ## 警告：现阶段的代码丑！而！且！乱
