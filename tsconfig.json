@@ -2,8 +2,8 @@
     "compilerOptions": {
         "target": "ES6",
         "module": "CommonJS",
-        "moduleResolution": "Node",
         "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
         "outDir": "lib",
         "inlineSourceMap": true,
         "incremental": true,

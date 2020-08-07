@@ -1,4 +1,4 @@
-import * as request from "request-promise";
+import request from "request-promise";
 import { Hitokoto } from "../entity";
 import { app } from "../";
 
