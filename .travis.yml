@@ -6,3 +6,5 @@ cache: yarn
 script:
   - yarn build
   - yarn test
+after_success:
+  - yarn coverage
