@@ -1,6 +1,6 @@
 import { View } from "./View";
-import * as inquirer from "inquirer";
-import { isUndefined } from "util";
+import inquirer from "inquirer";
+import Separator from "inquirer/lib/objects/separator";
 
 
 export class Route {
@@ -34,7 +34,7 @@ export class Route {
  * 以列表形式呈现选项，每个选项对应一个函数操作
  */
 export abstract class RouterView extends View {
-    protected abstract choices: Array<Route>
+    protected abstract choices: Array<Route | Separator>
 
     public async invoke(): Promise<void> {
         const questionName = this.name || this.constructor.name;

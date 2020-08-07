@@ -1,9 +1,16 @@
 import { Column } from "typeorm";
+import { RelationCountMetadata } from "typeorm/metadata/RelationCountMetadata";
 
 
-export class Time {
-    @Column() start: Date
-    @Column() span: Date
+/**
+ * 时间段
+ *
+ * - 如果 `start`, `span` 和 `end`，无论三者是否矛盾，函数的返回值按 `start` 和 `span` 计算。
+ */
+export class Timespan {
+    @Column() public start: Date
+    @Column() public span: Date
+    @Column() public end: Date
 
     public constructor(start?: Date, span?: Date) {
         this.start = start;
@@ -18,12 +25,5 @@ export class Time {
     public setTimeStartAndEnd(start: Date, end: Date): void {
         this.start = start;
         this.span = new Date(end.getTime() - start.getTime());
-    }
-
-    public get end(): Date | null {
-        if (this.start && this.span) {
-            return new Date(this.start.getTime() + this.span.getTime());
-        }
-        return null;
     }
 }

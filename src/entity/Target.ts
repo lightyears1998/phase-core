@@ -1,7 +1,9 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn
+    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, ManyToMany
 } from "typeorm";
-import { Time } from "./Time";
+import { Timespan } from "./Timespan";
+import { VersionControlEmbbedEntity } from "./VersionControlEntity";
+import { Attachment } from "./Attachment";
 
 
 enum TargetStatus {
@@ -13,13 +15,48 @@ enum TargetStatus {
 
 
 @Entity()
-export class Target {
-    @PrimaryGeneratedColumn("uuid") id: string;
-    @CreateDateColumn() createAt: Date;
-    @UpdateDateColumn() updateAt: Date;
-    @Column(() => Time) time: Time;
-    @Column() status: TargetStatus;
-    @Column() order: number
-    @Column() summary: string
-    @Column() detail: string
+export class TargetEntity {
+    @PrimaryGeneratedColumn("uuid")
+    public id: string;
+
+    @CreateDateColumn()
+    public createdAt: Date
+
+    @OneToOne(() => TargetProperties, {
+        eager: true
+    })
+    @JoinColumn()
+    public description: TargetProperties;
+}
+
+
+@Entity()
+export class TargetAttachment extends Attachment {
+    @ManyToOne(() => TargetProperties, target => target.attachments)
+    public owner: TargetEntity
+}
+
+
+@Entity()
+export class TargetProperties {
+    @OneToOne(() => TargetEntity)
+    public owner: TargetEntity;
+
+    @Column(() => VersionControlEmbbedEntity)
+    public version: VersionControlEmbbedEntity;
+
+    @Column()
+    public status: TargetStatus;
+
+    @Column()
+    public name: string;
+
+    @Column()
+    public description: string;
+
+    @Column()
+    public tiemspan: Timespan;
+
+    @OneToMany(() => Attachment, attachment => attachment.filepath)
+    public attachments: Attachment[]
 }
