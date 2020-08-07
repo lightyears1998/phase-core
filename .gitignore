@@ -8,6 +8,10 @@ day-primer-core-linux
 day-primer-core-macos
 day-primer-core-win.exe
 
+# Coverage Report
+.nyc_output
+coverage
+
 # Logs
 report.**.json
 **.log

@@ -24,7 +24,8 @@
         "lint:fix": "yarn lint --fix --color",
         "lint:watch": "yarn lint:fix --watch --changed --color --clear",
         "mocha": "cross-env NODE_ENV=development ts-mocha",
-        "test": "cross-env NODE_ENV=development ts-mocha --recursive \"src/**/*.test.ts\"",
+        "test": "cross-env NODE_ENV=development ts-mocha",
+        "nyc": "nyc --reporter=html --reporter=text ts-mocha",
         "build": "tsc",
         "build:watch": "yarn build --watch",
         "start": "node ./lib/index.js",
@@ -45,6 +46,17 @@
         "assets": [
             "node_modules/figlet/fonts/**"
         ]
+    },
+    "nyc": {
+        "extension": [
+            ".ts",
+            ".tsx"
+        ],
+        "exclude": [
+            "coverage/**",
+            "**/*.d.ts"
+        ],
+        "all": true
     },
     "devDependencies": {
         "@lightyears1998/eslint-config-lightyears-style": "^1.0.0",
@@ -72,7 +84,8 @@
         "mocha": "^8.1.1",
         "nodemon": "^2.0.4",
         "ts-mocha": "^7.0.0",
-        "typescript": "~3.9"
+        "typescript": "~3.9",
+        "nyc": "^15.1.0"
     },
     "dependencies": {
         "bcrypt": "^5.0.0",
