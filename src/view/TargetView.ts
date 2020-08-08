@@ -7,6 +7,7 @@ import {
 import { prompt, Separator } from "inquirer";
 import { getApp } from "..";
 import { TargetController } from "../control";
+import * as fuzzy from "fuzzy";
 
 
 export class TargetView extends RouterView {
@@ -24,7 +25,30 @@ export class BrowseTargetView extends View {
         const user = getApp().getCurrentUser();
         const targets = await (getApp().getController(TargetController) as TargetController).listAllTargetsOfUser(user);
 
-        console.log(targets);
+        const choices = targets.map(target => target.name);
+
+        const searchTargets = (_: unknown, input: string | undefined) => {
+            input = input || "";
+            return new Promise((resolve) => {
+                const result = fuzzy.filter(input, choices);
+                resolve(result.map(item => item.original));
+            })
+        }
+
+        enum AnswerKey {
+            selectedTarget = "selectedTarget"
+        }
+
+        const answers = await prompt([
+            {
+                type: "autocomplete",
+                name: AnswerKey.selectedTarget,
+                message: "现有目标",
+                source: searchTargets
+            }
+        ])
+
+        console.log(answers);
     }
 }
 
@@ -53,7 +77,7 @@ export class CreateTargetView extends View {
             {
                 type:    "confirm",
                 name:    AnswerKey.shouldSetTimespan,
-                message: "要设置目标的起止时间吗？"
+                message: "要设置目标的起止时间吗？",
             },
             {
                 type:    "datetime",
