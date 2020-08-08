@@ -15,10 +15,10 @@
         "node": ">=12"
     },
     "bin": {
-        "dayp": "./bin/cli.js"
+        "dayp": "./lib/bin/cli.js"
     },
     "scripts": {
-        "clean": "node ./bin/devutils.js clean",
+        "clean": "node ./lib/bin/devutils.js clean",
         "linter": "esw --ext .ts",
         "lint": "yarn linter src --color",
         "lint:fix": "yarn lint --fix --color",
@@ -28,8 +28,8 @@
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "build": "tsc",
         "build:watch": "yarn build --watch",
-        "start": "node ./lib/index.js",
-        "dev": "cross-env NODE_ENV=development nodemon ./src/index.ts",
+        "start": "node ./lib/bin/cli.js",
+        "dev": "cross-env NODE_ENV=development nodemon ./src/bin/cli.ts",
         "prepublish": "yarn build --declaration",
         "prepkg": "yarn prepublish",
         "pkg": "pkg ."

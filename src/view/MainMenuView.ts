@@ -1,5 +1,5 @@
 import { Route, RouterView } from "./common";
-import { app } from "..";
+import { getApp } from "..";
 import { SetupView } from ".";
 import Separator from "inquirer/lib/objects/separator";
 import { TargetView } from "./TargetView";
@@ -22,7 +22,7 @@ export class MainMenuView extends RouterView {
         }),
         new Separator(),
         new Route("退出", () => {
-            app.stop();
+            getApp().stop();
         })
     ]
 
@@ -32,7 +32,7 @@ export class MainMenuView extends RouterView {
         super();
 
         this.choices = this.choicesWithouUserLoggined;
-        if (app.getCurrentUser()) {
+        if (getApp().getCurrentUser()) {
             this.choices = [...this.choicesRequiredUserLoggined, new Separator(), ...this.choices];
         }
     }

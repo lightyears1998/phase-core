@@ -1,18 +1,18 @@
 import request from "request-promise";
 import { Hitokoto } from "../entity";
-import { app } from "../";
+import { getApp } from "../";
 
 
 export class HitokotoService {
     public static async random(): Promise<Hitokoto> {
-        const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
+        const repo = getApp().getHitokotoDBConnection().getRepository(Hitokoto);
         const hitokoto = await repo.createQueryBuilder().orderBy("RANDOM()").getOne();
         return hitokoto;
     }
 
     public static save(hitokoto: Hitokoto): void {
         if (hitokoto != null) {
-            const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
+            const repo = getApp().getHitokotoDBConnection().getRepository(Hitokoto);
             repo.save(hitokoto);
         }
     }
@@ -31,7 +31,7 @@ export class HitokotoService {
     public static async removeRandomHitokotos(): Promise<void> {
         const limit = 1024;
 
-        const repo = app.getHitokotoDBConnection().getRepository(Hitokoto);
+        const repo = getApp().getHitokotoDBConnection().getRepository(Hitokoto);
         const count = await repo.count();
         if (count > limit) {
             const random = await repo.createQueryBuilder().orderBy("RANDOM()").limit(count - limit).getMany();
@@ -55,7 +55,7 @@ export class HitokotoService {
                 );
             })
             .catch(err => {
-                if (app.debuggable) {
+                if (getApp().debuggable) {
                     console.log(err);
                 }
             });

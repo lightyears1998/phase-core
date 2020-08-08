@@ -2,12 +2,12 @@ import {
     User, UserStatus, UserAuthInfo, UserAuthType
 } from "../entity";
 import { hash, genSalt } from "bcrypt";
-import { app } from "..";
+import { getApp } from "..";
 
 
 export class UserController {
     public static async createLocalUser(username: string): Promise<User> {
-        const db = app.getMainDBManager();
+        const db = getApp().getMainDBManager();
 
         let userAuth = {
             allowLocalAccess:  UserAuthType.NO_AUTH,
@@ -33,7 +33,7 @@ export class UserController {
     }
 
     public static async createUser(username: string, password: string, email?: string): Promise<User> {
-        const db = app.getMainDBManager();
+        const db = getApp().getMainDBManager();
 
         const salt = await genSalt();
         const passwordHash = await hash(password, salt);
@@ -70,12 +70,12 @@ export class UserController {
     }
 
     public static async listAllUsers(): Promise<User[]> {
-        const db = app.getMainDBManager();
+        const db = getApp().getMainDBManager();
         return db.find(User);
     }
 
     public static async findUserByUsername(username: string): Promise<User> {
-        const db = app.getMainDBManager();
+        const db = getApp().getMainDBManager();
         return db.findOne(User, { username });
     }
 }

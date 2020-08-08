@@ -18,6 +18,8 @@ import AutocompletePrompt from "inquirer-autocomplete-prompt";
 
 
 export class App {
+    private static instance?: App
+
     private args: AppArgs;
     public debuggable: boolean
     private shouldStop = false;
@@ -34,12 +36,19 @@ export class App {
 
     private currentUser?: User
 
-    public constructor() {
+    private constructor() {
         this.parseCommandArgs();
         this.setDebuggable();
 
         this.setPath();
         this.ensurePath();
+    }
+
+    public static getInstance(): App {
+        if (!App.instance) {
+            App.instance = new App();
+        }
+        return App.instance;
     }
 
     public get version(): string {
@@ -250,4 +259,9 @@ export class App {
             process.exitCode = code;
         }
     }
+}
+
+
+export function getApp(): App {
+    return App.getInstance();
 }

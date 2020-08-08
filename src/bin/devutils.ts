@@ -1,12 +1,9 @@
-#!/usr/bin/env node
+import { remove } from "fs-extra";
+import { argv } from "yargs";
+import { resolve } from "path";
 
-"use strict";
 
-const { remove } = require("fs-extra");
-const { argv } = require("yargs");
-const { resolve } = require("path");
-
-const projectRoot = resolve(__dirname, "../");
+const projectRoot = resolve(__dirname, "../..");
 const option = argv._.shift();
 
 

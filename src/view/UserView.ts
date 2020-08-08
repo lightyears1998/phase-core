@@ -7,14 +7,14 @@ import {
 import { User } from "../entity";
 import { UserController } from "../control";
 import * as fuzzy from "fuzzy";
-import { app } from "..";
+import { getApp } from "..";
 
 
 export class UserView extends RouterView {
     protected choices = [
         new Route("切换用户", new SwitchUserView()),
         new Route("新建用户", new CreateUserView()),
-        app.getCurrentUser() ? new Route("退出当前用户", new LogoutUserView()) : null,
+        getApp().getCurrentUser() ? new Route("退出当前用户", new LogoutUserView()) : null,
         new Route("返回主菜单", null)
     ]
 }
@@ -126,7 +126,7 @@ export class SwitchUserView extends View {
             const username = (answers[answerKeys.SELECTED_USER] as string).split("<")[0].trim();
             const user = await UserController.findUserByUsername(username);
             if (user) {
-                await app.loginUser(user);
+                await getApp().loginUser(user);
                 console.log(`切换为 ${user.username}`);
             } else {
                 console.log("无法切换到该用户，因为该用户不存在。");
@@ -149,7 +149,7 @@ export class LogoutUserView extends View {
         ])
 
         if (answer[answerKey]) {
-            await app.logoutUser();
+            await getApp().logoutUser();
         }
     }
 }

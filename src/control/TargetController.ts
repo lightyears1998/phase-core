@@ -1,10 +1,10 @@
 import { TargetEntity } from "../entity";
-import { app } from "..";
+import { getApp } from "..";
 
 
 export class TargetController {
     public async createTarget(): Promise<TargetEntity> {
-        const db = app.getMainDBManager();
+        const db = getApp().getMainDBManager();
 
         // @TODO
         return null;

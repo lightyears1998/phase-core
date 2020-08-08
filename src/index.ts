@@ -1,7 +1,6 @@
 import "reflect-metadata";
-import { App } from "./App";
 
-const app = new App();
-app.start();
-
-export { app };
+export * from "./App";
+export * from "./AppArgs";
+export * from "./AppConfig";
+export * from "./AppMetadata";
