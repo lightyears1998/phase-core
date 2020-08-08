@@ -14,9 +14,6 @@ export enum TargetStatus {
     /** 暂停 */
     SUSPENDED = "suspended",
 
-    /** 专注中 */
-    FOCUSING = "focusing",
-
     /** 完成 */
     COMPLETED = "completed",
 
@@ -31,16 +28,16 @@ export enum TargetStatus {
 @Entity()
 export class TargetEntity {
     @PrimaryGeneratedColumn("uuid")
-    public id: string;
+    public id?: string;
 
     @CreateDateColumn()
-    public createdAt: Date
+    public createdAt?: Date
 
     @UpdateDateColumn()
-    public updatedAt: Date
+    public updatedAt?: Date
 
     @OneToMany(() => User, user => user.targets)
-    public owner: User
+    public owner?: User
 
     @Column()
     public status: TargetStatus;
@@ -55,10 +52,10 @@ export class TargetEntity {
     public timespan: Timespan;
 
     @OneToMany(() => Action, action => action.target)
-    public actions: Action[];
+    public actions?: Action[];
 
     @OneToMany(() => TargetAttachment, attachment => attachment.filepath)
-    public attachments: Attachment[]
+    public attachments?: Attachment[]
 }
 
 

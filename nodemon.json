@@ -1,4 +1,8 @@
 {
+    "watch": "src",
     "restartable": false,
-    "comments@restartable": "在开发环境中需要禁用 Nodemon 重启功能，因为这个功能会与 inquirer 冲突。见 <https://github.com/remy/nodemon/blob/master/faq.md#nodemon-doesnt-work-with-my-repl>"
+    "comments": {
+        "@restartable#1": "在开发环境中需要禁用 Nodemon 重启功能，因为这个功能会与 inquirer.js 冲突。见 <https://github.com/remy/nodemon/blob/master/faq.md#nodemon-doesnt-work-with-my-repl>",
+        "@restartable#2": "但即便是这样，在使用到 inquirer.js 的 EDITOR prompt，两者的功能仍会冲突。"
+    }
 }

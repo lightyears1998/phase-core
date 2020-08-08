@@ -1,6 +1,8 @@
 import { View, RouterView, Route } from "./common";
 import { TargetEntity, TargetStatus } from "../entity";
 import { prompt, Separator } from "inquirer"
+import { getApp } from "..";
+import { TargetController } from "../control";
 
 
 export class TargetView extends RouterView {
@@ -15,14 +17,44 @@ export class TargetView extends RouterView {
 
 export class BrowseTargetView extends View {
     public async invoke(): Promise<void> {
-        // @todo
+        const user = getApp().getCurrentUser();
+        const targets = await (getApp().getController(TargetController) as TargetController).listAllTargetsOfUser(user);
+
+        console.log(targets);
     }
 }
 
 
 export class CreateTargetView extends View {
     public async invoke(): Promise<void> {
-        // @todo
+        const user = getApp().getCurrentUser();
+
+        enum AnswerKey {
+            nameAndDescription = "nameAndDescription",
+            shouldSetTimespan = "shouldSetTimespan",
+            timespan = "timespan"
+        }
+
+        const anwsers = await prompt([
+            {
+                type: "editor",
+                name: AnswerKey.nameAndDescription,
+                message: "目标的标题和细节是？",
+                default: `
+
+# 第一行是目标的标题
+#
+# 第一行之后的是内容
+# 以“# ”开始的行会被忽略`
+            },
+            {
+                type: "confirm",
+                name: AnswerKey.shouldSetTimespan,
+                message:"要设置目标的起止时间吗？"
+            }
+        ])
+
+        console.log(anwsers);
     }
 }
 

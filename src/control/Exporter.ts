@@ -1,3 +1,6 @@
-export class Exporter {
+import { Controller } from "./common";
+
+
+export class Exporter extends Controller {
 
 }

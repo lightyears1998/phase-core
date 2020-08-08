@@ -29,6 +29,7 @@
         "build": "tsc",
         "build:watch": "yarn build --watch",
         "start": "node ./lib/bin/cli.js",
+        "start:ts": "ts-node ./src/bin/cli.ts",
         "dev": "cross-env NODE_ENV=development nodemon ./src/bin/cli.ts",
         "prepublish": "yarn build --declaration",
         "prepkg": "yarn prepublish",

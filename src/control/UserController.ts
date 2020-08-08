@@ -3,9 +3,10 @@ import {
 } from "../entity";
 import { hash, genSalt } from "bcrypt";
 import { getApp } from "..";
+import { StaticController } from "./common";
 
 
-export class UserController {
+export class UserController extends StaticController {
     public static async createLocalUser(username: string): Promise<User> {
         const db = getApp().getMainDBManager();
 

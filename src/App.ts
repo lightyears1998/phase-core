@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
-import { HitokotoService } from "./control";
+import { HitokotoService, Controller, TargetController, StaticController, StatefulController, UserController } from "./control";
 import * as entities from "./entity";
 import { MainMenuView } from "./view";
 import { User } from "./entity";
@@ -36,12 +36,16 @@ export class App {
 
     private currentUser?: User
 
+    private controllerMap: Map<typeof Controller, Controller>
+
     private constructor() {
         this.parseCommandArgs();
         this.setDebuggable();
 
         this.setPath();
         this.ensurePath();
+
+        this.controllerMap = new Map();
     }
 
     public static getInstance(): App {
@@ -49,6 +53,14 @@ export class App {
             App.instance = new App();
         }
         return App.instance;
+    }
+
+    public getController(type: typeof Controller): Controller {
+        const controller = this.controllerMap.get(type);
+        if (!controller) {
+            throw new TypeError(`${type} 未被初始化。`)
+        }
+        return controller;
     }
 
     public get version(): string {
@@ -124,6 +136,7 @@ export class App {
         await this.initConfig();
         await this.initDB();
         await this.initMetadata();
+        await this.initControllers();
 
         this.updateHitokoto();
 
@@ -192,6 +205,24 @@ export class App {
         })
             .then(conn => this.hitokotoDBConnection = conn)
             .catch(err => console.error(err));
+    }
+
+    private async initControllers(): Promise<void> {
+        const controllers = [
+            TargetController, UserController
+        ]
+
+        await Promise.all(controllers.map(controller => this.initController(controller)));
+    }
+
+    private async initController(type: typeof Controller): Promise<Controller> {
+        if (type.prototype instanceof StaticController) {
+            return new (type as typeof StaticController)(this);
+        } else if (type.prototype instanceof StatefulController) {
+            return new (type as typeof StatefulController)(this);
+        }
+
+        throw TypeError(`${type} 是不支持的控制器类型，无法被初始化。`)
     }
 
     private initCLI(): void {

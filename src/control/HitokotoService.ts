@@ -1,9 +1,14 @@
 import request from "request-promise";
 import { Hitokoto } from "../entity";
-import { getApp } from "../";
+import { getApp, App } from "../";
+import { Controller } from "./common";
 
 
-export class HitokotoService {
+export class HitokotoService extends Controller {
+    public constructor(app: App) {
+        super(app);
+    }
+
     public static async random(): Promise<Hitokoto> {
         const repo = getApp().getHitokotoDBConnection().getRepository(Hitokoto);
         const hitokoto = await repo.createQueryBuilder().orderBy("RANDOM()").getOne();
