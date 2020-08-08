@@ -1,4 +1,4 @@
-import { TargetEntity, TargetProperties } from "../entity";
+import { TargetEntity } from "../entity";
 import { app } from "..";
 
 
@@ -8,5 +8,9 @@ export class TargetController {
 
         // @TODO
         return null;
+    }
+
+    public async updateTarget(target: TargetEntity) {
+        // @todo
     }
 }
