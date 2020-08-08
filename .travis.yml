@@ -15,6 +15,6 @@ script:
   - yarn build
   - yarn test
 after_script:
-  - nyc report --reporter=text-lcov | ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT # CodeClimate Reporter
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT # CodeClimate Reporter
 after_success:
   - yarn coverage

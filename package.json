@@ -24,7 +24,7 @@
         "lint:fix": "yarn lint --fix --color",
         "lint:watch": "yarn lint:fix --watch --changed --color --clear",
         "mocha": "cross-env NODE_ENV=development ts-mocha",
-        "test": "nyc --reporter=html --reporter=text ts-mocha",
+        "test": "nyc --reporter=lcov ts-mocha",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "build": "tsc",
         "build:watch": "yarn build --watch",
