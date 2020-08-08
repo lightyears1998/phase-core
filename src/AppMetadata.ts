@@ -14,7 +14,7 @@ export class AppMetadata {
         }));
     }
 
-    public async saveKey(key: string, value: string) {
+    public async saveKey(key: string, value: string): Promise<void> {
         Object.defineProperty(this, key, {
             value, configurable: true, enumerable: true, writable: true
         });

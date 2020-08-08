@@ -138,15 +138,15 @@ export class SwitchUserView extends View {
 
 export class LogoutUserView extends View {
     public async invoke(): Promise<void> {
-        const answerKey = "confirm"
+        const answerKey = "confirm";
 
         const answer = await prompt([
             {
-                type: "confirm",
-                name: answerKey,
+                type:    "confirm",
+                name:    answerKey,
                 message: "要退出登录当前用户吗？"
             }
-        ])
+        ]);
 
         if (answer[answerKey]) {
             await getApp().logoutUser();

@@ -1,4 +1,6 @@
-import { Column, Entity, CreateDateColumn, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column, Entity, CreateDateColumn, PrimaryGeneratedColumn
+} from "typeorm";
 import { TargetEntity } from "./Target";
 
 
@@ -6,9 +8,7 @@ export class TargetWeight {
     @Column("simple-json")
     public target: TargetEntity
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     public percentageWeight?: number
 }
 

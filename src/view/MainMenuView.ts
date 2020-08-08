@@ -13,7 +13,7 @@ export class MainMenuView extends RouterView {
     private choicesRequiredUserLoggined = [
         new Route("聚焦", new FocusView()),
         new Route("目标管理", new TargetView()),
-        new Route("行动管理", new ActionView()),
+        new Route("行动管理", new ActionView())
     ]
 
     private choicesWithouUserLoggined = [
@@ -33,7 +33,11 @@ export class MainMenuView extends RouterView {
 
         this.choices = this.choicesWithouUserLoggined;
         if (getApp().getCurrentUser()) {
-            this.choices = [...this.choicesRequiredUserLoggined, new Separator(), ...this.choices];
+            this.choices = [
+                ...this.choicesRequiredUserLoggined,
+                new Separator(),
+                ...this.choices
+            ];
         }
     }
 }

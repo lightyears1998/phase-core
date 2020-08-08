@@ -1,5 +1,5 @@
 import { View } from "./common";
-import marked, { Renderer as MarkedRender } from "marked";
+import marked from "marked";
 import MarkedTerminalRender from "marked-terminal";
 
 

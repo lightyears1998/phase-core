@@ -1,5 +1,5 @@
 import {
-    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, ManyToMany, UpdateDateColumn
+    Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany, UpdateDateColumn
 } from "typeorm";
 import { Timespan } from "./Timespan";
 import { Attachment } from "./Attachment";
@@ -36,7 +36,7 @@ export class TargetEntity {
     @UpdateDateColumn()
     public updatedAt?: Date
 
-    @OneToMany(() => User, user => user.targets)
+    @ManyToOne(() => User, user => user.targets)
     public owner?: User
 
     @Column()
@@ -54,8 +54,8 @@ export class TargetEntity {
     @OneToMany(() => Action, action => action.target)
     public actions?: Action[];
 
-    @OneToMany(() => TargetAttachment, attachment => attachment.filepath)
-    public attachments?: Attachment[]
+    @OneToMany(() => TargetAttachment, attachment => attachment.attchedTo)
+    public attachments?: TargetAttachment[]
 }
 
 

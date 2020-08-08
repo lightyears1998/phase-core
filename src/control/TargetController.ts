@@ -1,4 +1,6 @@
-import { TargetEntity, User, TargetStatus, Timespan } from "../entity";
+import {
+    TargetEntity, User, TargetStatus, Timespan
+} from "../entity";
 import { App } from "..";
 import { StaticController } from "./common";
 import { EntityManager } from "typeorm";

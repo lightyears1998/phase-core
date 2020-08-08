@@ -42,9 +42,7 @@ export class Action {
     @ManyToOne(() => User, user => user.actions)
     public owner: User;
 
-    @ManyToOne(() => TargetEntity, target => target.actions, {
-        nullable: true
-    })
+    @ManyToOne(() => TargetEntity, target => target.actions, { nullable: true })
     public target: TargetEntity;
 
     @Column()
@@ -60,7 +58,7 @@ export class Action {
     public status: ActionStatus;
 
     @OneToMany(() => ActionAttachment, attachment => attachment.attchedTo)
-    public attachments: Attachment[]
+    public attachments: ActionAttachment[]
 }
 
 

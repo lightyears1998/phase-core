@@ -8,13 +8,16 @@ import {
 } from "typeorm";
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
-import { HitokotoService, Controller, TargetController, StaticController, StatefulController, UserController } from "./control";
+import {
+    HitokotoService, Controller, TargetController, StaticController, StatefulController, UserController
+} from "./control";
 import * as entities from "./entity";
 import { MainMenuView } from "./view";
 import { User } from "./entity";
 import { AppMetadata } from "./AppMetadata";
 import { registerPrompt } from "inquirer";
 import AutocompletePrompt from "inquirer-autocomplete-prompt";
+import DatepickerPrompt from "inquirer-datepicker-prompt";
 
 
 export class App {
@@ -58,7 +61,7 @@ export class App {
     public getController(type: typeof Controller): Controller {
         const controller = this.controllerMap.get(type);
         if (!controller) {
-            throw new TypeError(`${type} 未被初始化。`)
+            throw new TypeError(`${type} 未被初始化。`);
         }
         return controller;
     }
@@ -185,7 +188,7 @@ export class App {
                 entities.ActionAttachment,
                 entities.User,
                 entities.UserAuthInfo,
-                entities.AppMetadataEntity,
+                entities.AppMetadataEntity
             ],
             logging:     this.debuggable,
             logger:      "advanced-console",
@@ -208,11 +211,12 @@ export class App {
     }
 
     private async initControllers(): Promise<void> {
-        const controllers = [
-            TargetController, UserController
-        ]
+        const controllers = [TargetController, UserController];
 
-        await Promise.all(controllers.map(controller => this.initController(controller)));
+        await Promise.all(controllers.map(async controller => {
+            const instance = await this.initController(controller);
+            this.controllerMap.set(controller, instance);
+        }));
     }
 
     private async initController(type: typeof Controller): Promise<Controller> {
@@ -222,11 +226,12 @@ export class App {
             return new (type as typeof StatefulController)(this);
         }
 
-        throw TypeError(`${type} 是不支持的控制器类型，无法被初始化。`)
+        throw TypeError(`${type} 是不支持的控制器类型，无法被初始化。`);
     }
 
     private initCLI(): void {
         registerPrompt("autocomplete", AutocompletePrompt);
+        registerPrompt("datetime", DatepickerPrompt);
     }
 
     private updateHitokoto(): void {

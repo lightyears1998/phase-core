@@ -7,19 +7,13 @@ import { Column } from "typeorm";
  * - 如果 `start`, `span` 和 `end`，无论三者是否矛盾，函数的返回值按 `start` 和 `span` 计算。
  */
 export class Timespan {
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     public start: Date
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     public span: Date
 
-    @Column({
-        nullable: true
-    })
+    @Column({ nullable: true })
     public end: Date
 
     public constructor(start?: Date, span?: Date) {

@@ -1,4 +1,6 @@
-import { View, Route, RouterView } from "./common";
+import {
+    View, Route, RouterView
+} from "./common";
 import { Separator } from "inquirer";
 
 

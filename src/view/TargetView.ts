@@ -1,6 +1,10 @@
-import { View, RouterView, Route } from "./common";
-import { TargetEntity, TargetStatus } from "../entity";
-import { prompt, Separator } from "inquirer"
+import {
+    View, RouterView, Route
+} from "./common";
+import {
+    TargetEntity, TargetStatus, Timespan
+} from "../entity";
+import { prompt, Separator } from "inquirer";
 import { getApp } from "..";
 import { TargetController } from "../control";
 
@@ -27,18 +31,17 @@ export class BrowseTargetView extends View {
 
 export class CreateTargetView extends View {
     public async invoke(): Promise<void> {
-        const user = getApp().getCurrentUser();
-
         enum AnswerKey {
             nameAndDescription = "nameAndDescription",
             shouldSetTimespan = "shouldSetTimespan",
-            timespan = "timespan"
+            startDate = "startDate",
+            endDate = "endDate"
         }
 
         const anwsers = await prompt([
             {
-                type: "editor",
-                name: AnswerKey.nameAndDescription,
+                type:    "editor",
+                name:    AnswerKey.nameAndDescription,
                 message: "目标的标题和细节是？",
                 default: `
 
@@ -48,13 +51,63 @@ export class CreateTargetView extends View {
 # 以“# ”开始的行会被忽略`
             },
             {
-                type: "confirm",
-                name: AnswerKey.shouldSetTimespan,
-                message:"要设置目标的起止时间吗？"
+                type:    "confirm",
+                name:    AnswerKey.shouldSetTimespan,
+                message: "要设置目标的起止时间吗？"
+            },
+            {
+                type:    "datetime",
+                name:    AnswerKey.startDate,
+                message: "开始时间",
+                format:  [
+                    "mm",
+                    "/",
+                    "dd",
+                    "/",
+                    "yyyy",
+                    " ",
+                    "HH",
+                    ":",
+                    "MM"
+                ]
+            },
+            {
+                type:    "datetime",
+                name:    AnswerKey.endDate,
+                message: "结束时间",
+                format:  [
+                    "mm",
+                    "/",
+                    "dd",
+                    "/",
+                    "yyyy",
+                    " ",
+                    "HH",
+                    ":",
+                    "MM"
+                ]
             }
-        ])
+        ]);
 
-        console.log(anwsers);
+        const nameAndDescription = (anwsers[AnswerKey.nameAndDescription] as string).trim().split("\n").filter(line => !line.startsWith("#"));
+        const name = nameAndDescription[0];
+        const description = nameAndDescription.slice(1).join("\n").trim();
+
+        const target = {
+            name,
+            description
+        } as Partial<TargetEntity>;
+
+        if (anwsers[AnswerKey.shouldSetTimespan]) {
+            target.timespan = new Timespan();
+            target.timespan.start = anwsers[AnswerKey.startDate];
+            target.timespan.end = anwsers[AnswerKey.endDate];
+        }
+
+        console.log(target);
+
+        const user = getApp().getCurrentUser();
+        await (getApp().getController(TargetController) as TargetController).createTargetForUser(user, target);
     }
 }
 
@@ -67,10 +120,10 @@ export class ModifyTargetView extends View {
         super();
 
         if (!target) {
-            throw TypeError("参数 target 不是正确的类型。")
+            throw TypeError("参数 target 不是正确的类型。");
         }
 
-        this.target = target
+        this.target = target;
         this.status = status;
     }
 
@@ -83,24 +136,21 @@ export class ModifyTargetView extends View {
     }
 
     private async quesionOnChangingTargetStatus() {
-        const messageMap = new Map([
-            [TargetStatus.COMPLETED, "确认完成行动？"],
-            [TargetStatus.DELETED, "确认删除行动？"]
-        ]);
+        const messageMap = new Map([[TargetStatus.COMPLETED, "确认完成行动？"], [TargetStatus.DELETED, "确认删除行动？"]]);
 
         const message = messageMap.get(this.status);
         if (!message) {
-            throw new TypeError(`参数 status = ${this.status} 尚未支持。`)
+            throw new TypeError(`参数 status = ${this.status} 尚未支持。`);
         }
 
-        const questionKey = "confirm"
+        const questionKey = "confirm";
         const answer = await prompt([
             {
                 type: "confirm",
                 name: questionKey,
                 message
             }
-        ])
+        ]);
 
         if (answer.questionKey) {
             // @todo
