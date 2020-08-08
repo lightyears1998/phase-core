@@ -6,6 +6,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3a1173d51889491cab9cb1ab895db551)](https://www.codacy.com/manual/lightyears1998/day-primer-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lightyears1998/day-primer-core&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/lightyears1998/day-primer-core/badge.svg?branch=master)](https://coveralls.io/github/lightyears1998/day-primer-core?branch=master)
 
+![Code size in bytes](https://img.shields.io/github/languages/code-size/lightyears1998/day-primer-core)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@lightyears1998/day-primer-core)
 ![npm download per month](https://img.shields.io/npm/dm/@lightyears1998/day-primer-core)
 ![Github Star](https://img.shields.io/github/stars/lightyears1998/day-primer-core)
