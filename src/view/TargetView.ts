@@ -9,7 +9,7 @@ import {
 } from "inquirer";
 import { getApp } from "..";
 import { CreateActionView } from "./";
-import { TargetController, getActionController } from "../control";
+import { TargetController, getActionController, getTargetController } from "../control";
 import { NameAndDescriptionQuestion, NameAndDescriptionQuesionAnswer } from "./common/NameAndDescriptionQuestion";
 
 
@@ -39,6 +39,7 @@ export class BrowseTargetView extends View {
         }
 
         if (choices.length === 0) {
+            console.log("没有目标可供浏览。")
             return null;
         }
 
@@ -60,7 +61,9 @@ export class BrowseTargetView extends View {
 
     public async invoke(): Promise<void> {
         const selectedTarget = await this.ask();
-        await new TargetContextView(selectedTarget).invoke();
+        if (selectedTarget) {
+            await new TargetContextView(selectedTarget).invoke();
+        }
     }
 
     public async invokeForResult(option?: { allowSelectNone: boolean }): Promise<TargetEntity> {
@@ -80,13 +83,14 @@ export class TargetContextView extends RouterView {
         this.choices = [
             new Route("为目标新增行动", new CreateActionView(this.target)),
             new Route("修改目标", new ModifyTargetView(this.target)),
+            new Route("删除目标", new ModifyTargetView(this.target, TargetStatus.DELETED)),
             new Route("返回主菜单", null)
         ];
     }
 
     public async invoke(): Promise<void> {
         if (!this.target.actions) {
-            this.target.actions = await getActionController().listActionOfTarget(this.target);
+            this.target.actions = await getActionController().listActionsOfTarget(this.target);
         }
 
         console.log(this.target);
@@ -218,10 +222,11 @@ export class ModifyTargetView extends View {
             }
         ]);
 
-        if (answer.questionKey) {
-            const user = getApp().getCurrentUser();
+        console.log(answer);
+
+        if (answer[questionKey]) {
             this.target.status = this.status;
-            await (getApp().getController(TargetController) as TargetController).updateTargetOfUser(user, this.target);
+            await getTargetController().updateTarget(this.target);
         }
     }
 
@@ -246,8 +251,7 @@ export class ModifyTargetView extends View {
         this.target.name = name;
         this.target.description = description;
 
-        const user = getApp().getCurrentUser();
-        this.target = await (getApp().getController(TargetController) as TargetController).updateTargetOfUser(user, this.target);
+        this.target = await (getApp().getController(TargetController) as TargetController).updateTarget(this.target);
 
         console.log(this.target);
     }

@@ -24,12 +24,18 @@ export class ActionController extends StaticController {
         return this.db.save(Action, action as Action);
     }
 
-    public async listActionOfTarget(target: TargetEntity): Promise<Action[]> {
+    public async listActionsOfTarget(target: TargetEntity): Promise<Action[]> {
         return this.db.find(Action, {
             where: {
                 target,
                 status: Not(ActionStatus.DELETED)
             }
         });
+    }
+
+    public async deleteActionsOfTarget(target: TargetEntity): Promise<void> {
+        const actions = await this.listActionsOfTarget(target);
+        actions.forEach(action => action.status = ActionStatus.DELETED);
+        await this.db.save(actions);
     }
 }

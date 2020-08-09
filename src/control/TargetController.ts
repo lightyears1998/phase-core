@@ -3,7 +3,8 @@ import {
 } from "../entity";
 import { App } from "..";
 import { StaticController } from "./common";
-import { EntityManager } from "typeorm";
+import { EntityManager, Not } from "typeorm";
+import { getActionController } from ".";
 
 
 export class TargetController extends StaticController {
@@ -15,7 +16,12 @@ export class TargetController extends StaticController {
     }
 
     public async listAllTargetsOfUser(user: User): Promise<TargetEntity[]> {
-        return this.db.find(TargetEntity, { owner: user });
+        return this.db.find(TargetEntity, {
+            where: {
+                owner: user,
+                status: Not(TargetStatus.DELETED)
+            }
+        });
     }
 
     public async createTargetForUser(user: User, target: Partial<TargetEntity>): Promise<TargetEntity> {
@@ -25,8 +31,10 @@ export class TargetController extends StaticController {
         return this.db.save(TargetEntity, target as TargetEntity);
     }
 
-    public async updateTargetOfUser(user: User, target: Partial<TargetEntity>): Promise<TargetEntity> {
-        target.owner = user;
-        return this.db.save(TargetEntity, target as TargetEntity);
+    public async updateTarget(target: TargetEntity): Promise<TargetEntity> {
+        if (target.status === TargetStatus.DELETED) {
+            await getActionController().deleteActionsOfTarget(target);
+        }
+        return this.db.save(TargetEntity, target);
     }
 }
