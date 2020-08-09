@@ -1,13 +1,15 @@
 import {
-    View, RouterView, Route
+    View, RouterView, Route, InquirerChoiceItemBuilder
 } from "./common";
 import {
     TargetEntity, TargetStatus, Timespan
 } from "../entity";
-import { prompt, Separator } from "inquirer";
+import {
+    prompt, Separator, ListQuestion
+} from "inquirer";
 import { getApp } from "..";
+import { CreateActionView } from "./";
 import { TargetController } from "../control";
-import * as fuzzy from "fuzzy";
 
 
 export class TargetView extends RouterView {
@@ -24,16 +26,7 @@ export class BrowseTargetView extends View {
     public async invoke(): Promise<void> {
         const user = getApp().getCurrentUser();
         const targets = await (getApp().getController(TargetController) as TargetController).listAllTargetsOfUser(user);
-
-        const choices = targets.map(target => target.name);
-
-        const searchTargets = (_: unknown, input: string | undefined) => {
-            input = input || "";
-            return new Promise((resolve) => {
-                const result = fuzzy.filter(input, choices);
-                resolve(result.map(item => item.original));
-            })
-        }
+        const choiceBuilder = new InquirerChoiceItemBuilder();
 
         enum AnswerKey {
             selectedTarget = "selectedTarget"
@@ -41,14 +34,39 @@ export class BrowseTargetView extends View {
 
         const answers = await prompt([
             {
-                type: "autocomplete",
-                name: AnswerKey.selectedTarget,
-                message: "现有目标",
-                source: searchTargets
-            }
-        ])
+                type:    "list",
+                name:    AnswerKey.selectedTarget,
+                message: "目标列表",
+                choices: choiceBuilder.buildTargetListItem(targets)
+            } as ListQuestion
+        ]);
 
-        console.log(answers);
+        const selectedTarget = answers[AnswerKey.selectedTarget];
+
+        await new TargetContextView(selectedTarget).invoke();
+    }
+}
+
+
+export class TargetContextView extends RouterView {
+    private target: TargetEntity
+
+    public constructor(target: TargetEntity) {
+        super();
+
+        this.target = target;
+        this.choices = [
+            new Route("为目标新增行动", new CreateActionView(this.target)),
+            new Route("修改目标", new ModifyTargetView(this.target)),
+            new Route("返回主菜单", null)
+        ]
+    }
+
+    public async invoke(): Promise<void> {
+        this.target = await (getApp().getController(TargetController) as TargetController).loadActionsOfTarget(this.target)
+        console.log(this.target);
+
+        await super.invoke();
     }
 }
 
@@ -77,7 +95,7 @@ export class CreateTargetView extends View {
             {
                 type:    "confirm",
                 name:    AnswerKey.shouldSetTimespan,
-                message: "要设置目标的起止时间吗？",
+                message: "要设置目标的起止时间吗？"
             },
             {
                 type:    "datetime",

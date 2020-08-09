@@ -2,6 +2,7 @@ import {
     View, Route, RouterView
 } from "./common";
 import { Separator } from "inquirer";
+import { TargetEntity } from "../entity";
 
 
 export class ActionView extends RouterView {
@@ -22,6 +23,14 @@ export class BrowseActionView extends View {
 
 
 export class CreateActionView extends View {
+    private attchedToTarget: TargetEntity;
+
+    public constructor(attachedToTarget?: TargetEntity) {
+        super();
+
+        this.attchedToTarget = attachedToTarget;
+    }
+
     public async invoke(): Promise<void> {
         // @todo
     }

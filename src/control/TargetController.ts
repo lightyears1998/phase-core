@@ -1,5 +1,5 @@
 import {
-    TargetEntity, User, TargetStatus, Timespan
+    TargetEntity, User, TargetStatus, Timespan, Action
 } from "../entity";
 import { App } from "..";
 import { StaticController } from "./common";
@@ -28,5 +28,12 @@ export class TargetController extends StaticController {
     public async updateTargetOfUser(user: User, target: Partial<TargetEntity>): Promise<TargetEntity> {
         target.owner = user;
         return this.db.save(TargetEntity, target as TargetEntity);
+    }
+
+    public async loadActionsOfTarget(target: TargetEntity): Promise<TargetEntity> {
+        if (!target.actions) {
+            target.actions = await this.db.find(Action, { target });
+        }
+        return target
     }
 }
