@@ -34,6 +34,6 @@ export class TargetController extends StaticController {
         if (!target.actions) {
             target.actions = await this.db.find(Action, { target });
         }
-        return target
+        return target;
     }
 }

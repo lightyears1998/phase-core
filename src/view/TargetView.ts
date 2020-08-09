@@ -10,6 +10,7 @@ import {
 import { getApp } from "..";
 import { CreateActionView } from "./";
 import { TargetController } from "../control";
+import { NameAndDescriptionQuestion, NameAndDescriptionQuesionAnswer } from "./common/NameAndDescriptionQuestion";
 
 
 export class TargetView extends RouterView {
@@ -26,7 +27,6 @@ export class BrowseTargetView extends View {
     public async invoke(): Promise<void> {
         const user = getApp().getCurrentUser();
         const targets = await (getApp().getController(TargetController) as TargetController).listAllTargetsOfUser(user);
-        const choiceBuilder = new InquirerChoiceItemBuilder();
 
         enum AnswerKey {
             selectedTarget = "selectedTarget"
@@ -37,7 +37,7 @@ export class BrowseTargetView extends View {
                 type:    "list",
                 name:    AnswerKey.selectedTarget,
                 message: "目标列表",
-                choices: choiceBuilder.buildTargetListItem(targets)
+                choices: new InquirerChoiceItemBuilder().buildTargetListItem(targets)
             } as ListQuestion
         ]);
 
@@ -59,11 +59,11 @@ export class TargetContextView extends RouterView {
             new Route("为目标新增行动", new CreateActionView(this.target)),
             new Route("修改目标", new ModifyTargetView(this.target)),
             new Route("返回主菜单", null)
-        ]
+        ];
     }
 
     public async invoke(): Promise<void> {
-        this.target = await (getApp().getController(TargetController) as TargetController).loadActionsOfTarget(this.target)
+        this.target = await (getApp().getController(TargetController) as TargetController).loadActionsOfTarget(this.target);
         console.log(this.target);
 
         await super.invoke();
@@ -81,8 +81,7 @@ export class CreateTargetView extends View {
         }
 
         const anwsers = await prompt([
-            {
-                type:    "editor",
+            new NameAndDescriptionQuestion({
                 name:    AnswerKey.nameAndDescription,
                 message: "目标的标题和细节是？",
                 default: `
@@ -91,7 +90,7 @@ export class CreateTargetView extends View {
 #
 # 第一行之后的是内容
 # 以“# ”开始的行会被忽略`
-            },
+            }),
             {
                 type:    "confirm",
                 name:    AnswerKey.shouldSetTimespan,
@@ -111,7 +110,8 @@ export class CreateTargetView extends View {
                     "HH",
                     ":",
                     "MM"
-                ]
+                ],
+                when: (ans) => (ans[AnswerKey.shouldSetTimespan])
             },
             {
                 type:    "datetime",
@@ -127,15 +127,15 @@ export class CreateTargetView extends View {
                     "HH",
                     ":",
                     "MM"
-                ]
+                ],
+                when: (ans) => (ans[AnswerKey.shouldSetTimespan])
             }
         ]);
 
-        const nameAndDescription = (anwsers[AnswerKey.nameAndDescription] as string).trim().split("\n").filter(line => !line.startsWith("#"));
-        const name = nameAndDescription[0];
-        const description = nameAndDescription.slice(1).join("\n").trim();
+        const nameAndDescription = (anwsers[AnswerKey.nameAndDescription] as NameAndDescriptionQuesionAnswer);
+        const { name, description } = nameAndDescription;
 
-        const target = {
+        let target = {
             name,
             description
         } as Partial<TargetEntity>;
@@ -146,10 +146,10 @@ export class CreateTargetView extends View {
             target.timespan.end = anwsers[AnswerKey.endDate];
         }
 
-        console.log(target);
-
         const user = getApp().getCurrentUser();
-        await (getApp().getController(TargetController) as TargetController).createTargetForUser(user, target);
+        target = await (getApp().getController(TargetController) as TargetController).createTargetForUser(user, target);
+
+        console.log(target);
     }
 }
 
@@ -170,7 +170,7 @@ export class ModifyTargetView extends View {
     }
 
     public async invoke(): Promise<void> {
-        if (status) {
+        if (this.status) {
             await this.quesionOnChangingTargetStatus();
         } else {
             await this.questionOnChangingTargetPropertis();
@@ -178,7 +178,7 @@ export class ModifyTargetView extends View {
     }
 
     private async quesionOnChangingTargetStatus() {
-        const messageMap = new Map([[TargetStatus.COMPLETED, "确认完成行动？"], [TargetStatus.DELETED, "确认删除行动？"]]);
+        const messageMap = new Map([[TargetStatus.COMPLETED, "确认完成目标？"], [TargetStatus.DELETED, "确认删除目标？"]]);
 
         const message = messageMap.get(this.status);
         if (!message) {
@@ -195,11 +195,36 @@ export class ModifyTargetView extends View {
         ]);
 
         if (answer.questionKey) {
-            // @todo
+            const user = getApp().getCurrentUser();
+            this.target.status = this.status;
+            await (getApp().getController(TargetController) as TargetController).updateTargetOfUser(user, this.target);
         }
     }
 
     private async questionOnChangingTargetPropertis() {
-        // @todo
+        enum AnswerKey {
+            nameAndDescription = "nameAndDescription"
+        }
+
+        const answers = await prompt([
+            new NameAndDescriptionQuestion(
+                {
+                    name:    AnswerKey.nameAndDescription,
+                    message: "修改目标的名称和描述",
+                    default: `${this.target.name}\n\n${this.target.description}`
+                }
+            )
+        ]);
+
+        const nameAndDescription = answers[AnswerKey.nameAndDescription] as NameAndDescriptionQuesionAnswer;
+        const { name, description } = nameAndDescription;
+
+        this.target.name = name;
+        this.target.description = description;
+
+        const user = getApp().getCurrentUser();
+        this.target = await (getApp().getController(TargetController) as TargetController).updateTargetOfUser(user, this.target);
+
+        console.log(this.target);
     }
 }
