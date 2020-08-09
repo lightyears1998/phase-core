@@ -38,6 +38,10 @@ export class BrowseTargetView extends View {
             });
         }
 
+        if (choices.length === 0) {
+            return null;
+        }
+
         enum AnswerKey {
             selectedTarget = "selectedTarget"
         }
