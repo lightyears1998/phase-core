@@ -16,4 +16,9 @@ export class ActionController extends StaticController {
         action.owner = user;
         return this.db.save(Action, action as Action);
     }
+
+    public async updateAction(user: User, action: Partial<Action>): Promise<Action> {
+        action.owner = user;
+        return this.db.save(Action, action as Action);
+    }
 }
