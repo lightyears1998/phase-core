@@ -9,7 +9,7 @@ import {
 import { AppArgs } from "./AppArgs";
 import { AppConfig, AppConfigSerilizer } from "./AppConfig";
 import {
-    HitokotoService, Controller, TargetController, StaticController, StatefulController, UserController
+    ActionController, HitokotoService, Controller, TargetController, StaticController, StatefulController, UserController
 } from "./control";
 import * as entities from "./entity";
 import { MainMenuView } from "./view";
@@ -211,7 +211,11 @@ export class App {
     }
 
     private async initControllers(): Promise<void> {
-        const controllers = [TargetController, UserController];
+        const controllers = [
+            ActionController,
+            TargetController,
+            UserController
+        ];
 
         await Promise.all(controllers.map(async controller => {
             const instance = await this.initController(controller);

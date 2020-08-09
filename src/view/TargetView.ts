@@ -24,9 +24,20 @@ export class TargetView extends RouterView {
 
 
 export class BrowseTargetView extends View {
-    public async invoke(): Promise<void> {
+    public allowSelectNone: boolean
+
+    private async ask(): Promise<TargetEntity> {
         const user = getApp().getCurrentUser();
         const targets = await (getApp().getController(TargetController) as TargetController).listAllTargetsOfUser(user);
+
+        const choices = new InquirerChoiceItemBuilder().buildTargetListItem(targets);
+        if (this.allowSelectNone) {
+            choices.unshift({
+                name:  "（无）",
+                value: null
+            });
+        }
+
 
         enum AnswerKey {
             selectedTarget = "selectedTarget"
@@ -37,13 +48,21 @@ export class BrowseTargetView extends View {
                 type:    "list",
                 name:    AnswerKey.selectedTarget,
                 message: "目标列表",
-                choices: new InquirerChoiceItemBuilder().buildTargetListItem(targets)
+                choices: choices
             } as ListQuestion
         ]);
 
-        const selectedTarget = answers[AnswerKey.selectedTarget];
+        return answers[AnswerKey.selectedTarget];
+    }
 
+    public async invoke(): Promise<void> {
+        const selectedTarget = await this.ask();
         await new TargetContextView(selectedTarget).invoke();
+    }
+
+    public async invokeForResult(option?: { allowSelectNone: boolean }): Promise<TargetEntity> {
+        this.allowSelectNone = option.allowSelectNone;
+        return this.ask();
     }
 }
 
