@@ -29,11 +29,4 @@ export class TargetController extends StaticController {
         target.owner = user;
         return this.db.save(TargetEntity, target as TargetEntity);
     }
-
-    public async loadActionsOfTarget(target: TargetEntity): Promise<TargetEntity> {
-        if (!target.actions) {
-            target.actions = await this.db.find(Action, { target });
-        }
-        return target;
-    }
 }

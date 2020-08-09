@@ -14,13 +14,20 @@ export enum TargetStatus {
     /** 暂停 */
     SUSPENDED = "suspended",
 
-    /** 完成 */
+    /**
+     * 完成
+     *
+     * 目标被标记为完成时，目标下的行动可以不是“完成”状态。
+     *
+     */
     COMPLETED = "completed",
 
-    /** 隐藏 */
-    HIDDEN = "hidden",
-
-    /** 删除 */
+    /**
+     * 删除
+     *
+     * 当目标被删除时，目标下的行动也会一并被删除。
+     *
+     */
     DELETED = "deleted"
 }
 

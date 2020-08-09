@@ -9,7 +9,7 @@ import {
 } from "inquirer";
 import { getApp } from "..";
 import { CreateActionView } from "./";
-import { TargetController } from "../control";
+import { TargetController, getActionController } from "../control";
 import { NameAndDescriptionQuestion, NameAndDescriptionQuesionAnswer } from "./common/NameAndDescriptionQuestion";
 
 
@@ -81,9 +81,11 @@ export class TargetContextView extends RouterView {
     }
 
     public async invoke(): Promise<void> {
-        this.target = await (getApp().getController(TargetController) as TargetController).loadActionsOfTarget(this.target);
-        console.log(this.target);
+        if (!this.target.actions) {
+            this.target.actions = await getActionController().listActionOfTarget(this.target);
+        }
 
+        console.log(this.target);
         await super.invoke();
     }
 }

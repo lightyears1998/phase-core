@@ -1,7 +1,9 @@
-import { EntityManager } from "typeorm";
+import { EntityManager, Not } from "typeorm";
 import { App } from "..";
 import { StaticController } from "./common";
-import { User, Action } from "../entity";
+import {
+    User, Action, TargetEntity, ActionStatus
+} from "../entity";
 
 
 export class ActionController extends StaticController {
@@ -20,5 +22,14 @@ export class ActionController extends StaticController {
     public async updateAction(user: User, action: Partial<Action>): Promise<Action> {
         action.owner = user;
         return this.db.save(Action, action as Action);
+    }
+
+    public async listActionOfTarget(target: TargetEntity): Promise<Action[]> {
+        return this.db.find(Action, {
+            where: {
+                target,
+                status: Not(ActionStatus.DELETED)
+            }
+        });
     }
 }
