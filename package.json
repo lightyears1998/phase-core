@@ -55,7 +55,8 @@
         ],
         "exclude": [
             "coverage/**",
-            "**/*.d.ts"
+            "**/*.d.ts",
+            "**/*.test.ts"
         ],
         "all": true
     },
