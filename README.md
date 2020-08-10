@@ -14,8 +14,7 @@
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@lightyears1998/day-primer-core)
 ![npm download per month](https://img.shields.io/npm/dm/@lightyears1998/day-primer-core)
 
-> 不要嘗試隱藏系統的複雜性，否則就會得到一個更複雜的系統。
+> DayPimer 正在进行敏捷开发。
+> 敏捷——但也整洁。
 
-警告：现阶段的代码丑！而！且！乱
-
-暂时不分离CORE与CLI。分离时应该借助mocha对CORE进行单元测试以保证正确性。
+DayPrimer 是一款时间管理和行动辅助软件，旨在帮助用户更好地完成日常生活中的行动。
