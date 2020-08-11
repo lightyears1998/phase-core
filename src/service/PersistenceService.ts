@@ -4,7 +4,7 @@ import { Service } from "./common"
 /**
  * 持久化服务
  *
- * 为应用程序提供数据存错功能。
+ * 为应用程序提供数据存储功能。
  */
 export class PersistenceService extends Service {
     public start(): Promise<void> {
