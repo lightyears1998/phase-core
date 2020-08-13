@@ -20,6 +20,11 @@ import AutocompletePrompt from "inquirer-autocomplete-prompt";
 import DatepickerPrompt from "inquirer-datepicker-prompt";
 
 
+/**
+ * 应用程序核心
+ *
+ * 控制整个应用程序的起停。
+ */
 export class App {
     private static instance?: App
 

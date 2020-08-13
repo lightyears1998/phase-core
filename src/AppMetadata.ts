@@ -2,6 +2,11 @@ import { getApp } from ".";
 import { AppMetadataEntity } from "./entity";
 
 
+/**
+ * 应用程序的元数据
+ *
+ * 元数据是通过数据库持久化的。
+ */
 export class AppMetadata {
     public lastLoginUserId?: string
 
