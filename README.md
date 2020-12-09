@@ -13,10 +13,3 @@
 ![npm (scoped with tag)](https://img.shields.io/npm/v/@lightyears1998/day-primer-core/latest)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@lightyears1998/day-primer-core)
 ![npm download per month](https://img.shields.io/npm/dm/@lightyears1998/day-primer-core)
-
-> DayPimer 正在进行敏捷开发。
-> 敏捷——但也整洁。
-
-DayPrimer 是一款时间管理和行动辅助软件，旨在帮助用户更好地完成日常生活中的行动。
-
-目前程序亟待重构，不然架子就要倒啦 QAQ！
